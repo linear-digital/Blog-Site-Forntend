@@ -6,6 +6,7 @@ import Header from "./header";
 import Sidebar from "./sidebar";
 import BackToTop from "../elements/backToTop";
 import Head from "next/head";
+import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }) => {
     const addClass = () => {
@@ -30,7 +31,7 @@ const Layout = ({ children }) => {
             <Sidebar removeClass={removeClass} />
             <Header addClass={addClass} openSearch={openSearch} />
             <Search />
-
+            <Toaster />
             {children}
 
             <Bottom />

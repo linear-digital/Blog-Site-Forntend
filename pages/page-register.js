@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "./../components/layout/layout";
+import Social from "../components/Social";
 function Register() {
     return (
         <>
@@ -42,13 +43,15 @@ function Register() {
                                         <div className="divider-text-center mt-15 mb-15">
                                             <span> or</span>
                                         </div>
-                                        <ul className="btn-login list_none text-center mb-15">
-                                            <li><a href="#" className="btn btn-facebook"><i className="elegant-icon social_facebook  mr-5"></i>Facebook</a></li>
-                                            <li><a href="#" className="btn btn-google"><i className="elegant-icon social_googleplus mr-5"></i>Google</a></li>
-                                        </ul>
-                                        <div className="text-muted text-center">Already have an account? <Link href="/page-login">
-                                            <a>Sign up now</a>
-                                        </Link></div>
+                                        <Social />
+                                        <div className="text-muted text-center">
+                                            Already have an account?
+                                            <Link
+                                                href="/page-login"
+                                            >
+                                                <a>Sign up now</a>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

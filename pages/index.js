@@ -3,7 +3,16 @@ import Layout from "./../components/layout/layout";
 import PostCarousel1 from "./../components/slider/PostCarousel1";
 import post from "../data/post.json";
 import author from "../data/author.json";
-function Home() {
+
+export const getStaticProps = async () => {
+    return {
+        props: {
+            posts: post
+        }
+    };
+};
+
+function Home({ posts }) {
     return (
         <>
             <Layout>
@@ -189,6 +198,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
+                    breack
                     <div className="bg-grey pt-50 pb-50">
                         <div className="container">
                             <div className="row">
