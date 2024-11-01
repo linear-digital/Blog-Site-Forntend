@@ -17,7 +17,7 @@ const api = axios.create({
 
 export const getCurrentUser = async (id) => {
     try {
-        const user = await api.get(`/users/find?email=${id}`)
+        const user = await api.get(`/users/find/one?email=${id}`)
         return user
     } catch (error) {
         throw error

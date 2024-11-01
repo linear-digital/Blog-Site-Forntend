@@ -1,25 +1,65 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Editor } from "primereact/editor";
 import Layout from "../../components/layout/layout";
 import { Button, Input } from "antd";
-
+import toast from "react-hot-toast";
+import api, { getCurrentUser } from "../../components/axios.instance";
+import { getAuth } from "firebase/auth";
+import app from "../../util/firebase.init";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Spin } from "antd";
 function BasicDemo() {
     const [text, setText] = useState('');
     const [title, setTitle] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [user, loadingUser] = useAuthState(getAuth(app));
+    const [currentuser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            getCurrentUser(user.email).then((res) => {
+                setCurrentUser(res.data)
+            })
+        }
+    },[user])
     const uploadFile = async () => {
         try {
             const imageData = new FormData()
-            image.append('image', image)
+            imageData.append('image', image)
 
             const res = await api.post('/upload', imageData)
-            return res.data
+            return res.data.url
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const handlePublish = async () => {
+        try {
+            if (!title || !text || !image) {
+                return toast.error('All fields are required')
+            }
+            const imageUrl = await uploadFile()
+
+            setLoading(true)
+            const res = await api.post('/blog', {
+                title: title,
+                content: text,
+                image: imageUrl,
+                user: currentuser._id
+            })
+            setLoading(false)
+            console.log(res.data)
+        } catch (error) {
+            console.error(error)
+            setLoading(false)
+        }
+    }
+    if (loadingUser || loading) {
+        return <Spin size="large" />
     }
     return (
         <div className="container"
@@ -78,9 +118,11 @@ function BasicDemo() {
                 className="d-none"
             />
             <Editor value={text} onTextChange={(e) => setText(e.htmlValue)} style={{ minHeight: '500px' }} />
-                <button className="btn btn-primary">
-                    Publish
-                </button>
+            <button
+                onClick={handlePublish}
+                className="btn btn-primary btn-lg mt-4">
+                Publish Blog
+            </button>
         </div>
     )
 }
