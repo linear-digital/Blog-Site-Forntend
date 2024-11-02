@@ -16,7 +16,7 @@ importers:
         version: 1.21.0
       antd:
         specifier: ^5.21.5
-        version: 5.21.5(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
+        version: 5.21.5(moment@2.30.1)(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -29,6 +29,9 @@ importers:
       metismenujs:
         specifier: ^1.3.1
         version: 1.4.0
+      moment:
+        specifier: ^2.30.1
+        version: 2.30.1
       next:
         specifier: ^12.1.6
         version: 12.3.4(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
@@ -726,6 +729,9 @@ packages:
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
+
+  moment@2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -1770,7 +1776,7 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
-  antd@5.21.5(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
+  antd@5.21.5(moment@2.30.1)(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
     dependencies:
       '@ant-design/colors': 7.1.0
       '@ant-design/cssinjs': 1.21.1(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
@@ -1802,7 +1808,7 @@ snapshots:
       rc-motion: 2.9.3(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       rc-notification: 5.6.2(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       rc-pagination: 4.3.0(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
-      rc-picker: 4.6.15(dayjs@1.11.13)(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
+      rc-picker: 4.6.15(dayjs@1.11.13)(moment@2.30.1)(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       rc-progress: 4.0.0(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       rc-rate: 2.13.0(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       rc-resize-observer: 1.4.0(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
@@ -1996,6 +2002,8 @@ snapshots:
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+
+  moment@2.30.1: {}
 
   nanoid@3.3.7: {}
 
@@ -2243,7 +2251,7 @@ snapshots:
       react: 18.1.0
       react-dom: 18.1.0(react@18.1.0)
 
-  rc-picker@4.6.15(dayjs@1.11.13)(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
+  rc-picker@4.6.15(dayjs@1.11.13)(moment@2.30.1)(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
     dependencies:
       '@babel/runtime': 7.26.0
       '@rc-component/trigger': 2.2.3(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
@@ -2255,6 +2263,7 @@ snapshots:
       react-dom: 18.1.0(react@18.1.0)
     optionalDependencies:
       dayjs: 1.11.13
+      moment: 2.30.1
 
   rc-progress@4.0.0(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
     dependencies:

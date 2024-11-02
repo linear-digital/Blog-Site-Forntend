@@ -4,53 +4,37 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/layout/layout";
 import data from "../../data/post.json";
 import comments from "../../data/comments.json";
-
-const SingleVendor = () => {
-
-   
-    
-
-    let Router = useRouter()
-
-    const [singleData, setSingleData] = useState(null);
+import api from "../../components/axios.instance";
+import moment from "moment";
 
 
-    const { id } = Router.query;
+export async function getServerSideProps(context) {
+    const { id } = context.query;
+    // Fetch data from external API
+    const res = await api.get(`/blog/${id}`);
+  
+    // Pass data to the page via props
+    return { props: { blog: res.data } };
+  }
 
-    useEffect(() => {
-        setSingleData(data.find((data) => data.id == id));
-    }, [id]);
 
+const SingleVendor = ({ blog }) => {
 
     return (
         <>
-
-
-
-
-            {/* {singleData && (
-                <>
-
-                    <img src={`/images/blog/${singleData.img}`} className="w-100 rounded" alt="" />
-                    <h3>{singleData.title}</h3>
-                </>
-            )} */}
-
             <Layout>
-                {singleData && ( 
+                {blog && (
                     <>
                         <main className="bg-grey pb-30">
                             <div className="container single-content">
 
                                 <div className="entry-header entry-header-style-1 mb-50 pt-50">
-                                    <h1 className="entry-title mb-50 font-weight-900">
-                                        {singleData.title}
-                                    </h1>
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="entry-meta align-items-center meta-2 font-small color-muted">
                                                 <p className="mb-5">
-                                                    <Link href="/author"><a className="author-avatar" href="#">
+                                                    <Link href={`/author/${blog?.user?._id}`}>
+                                                    <a className="author-avatar" href="#">
                                                         <img
                                                             className="img-circle"
                                                             src="/assets/imgs/authors/author-3.jpg"
@@ -58,19 +42,20 @@ const SingleVendor = () => {
                                                         />
                                                     </a></Link>
                                                     By
-                                                    <Link href="/author"><a>
+                                                    <Link href={`/author/${blog?.user?._id}`}><a>
                                                         <span className="author-name font-weight-bold">
-                                                            {singleData.author}
+                                                            {blog?.user?.name}
                                                         </span>
                                                     </a></Link>
                                                 </p>
                                                 <span className="mr-10">
 
-                                                    {singleData.date} {new Date().getFullYear()}
+                                                    {
+                                                        moment(blog?.createdAt).format('DD/MM/YYYY')}
                                                 </span>
                                                 <span className="has-dot">
 
-                                                    {singleData.readTime} mins read
+                                                    {blog?.readTime} mins read
                                                 </span>
                                             </div>
                                         </div>
@@ -112,338 +97,43 @@ const SingleVendor = () => {
                                 </div>
 
                                 {/* <!--end single header--> */}
-                                <figure className="image mb-30 m-auto text-center border-radius-10">
-                                    <img
-                                        className="border-radius-10"
-                                        src={`/assets/imgs/news/${singleData.img}`}
-                                        alt="post-title"
-                                    />
-                                </figure>
 
                                 {/* <!--figure--> */}
+                                <div
+                                dangerouslySetInnerHTML={{ __html: blog?.content }}
+                                >
+
+                                </div>
                                 <article className="entry-wraper mb-50">
-                                    <div className="excerpt mb-30">
-                                        <p>
-                                            Gosh jaguar ostrich quail
-                                            one excited dear hello and
-                                            bound and the and bland
-                                            moral misheard roadrunner
-                                            flapped lynx far that and
-                                            jeepers giggled far and far
-                                            bald that roadrunner python
-                                            inside held shrewdly the
-                                            manatee.
-                                        </p>
-                                    </div>
-                                    <div className="entry-main-content dropcap wow fadeIn animated">
-                                        <p>
-                                            Fretful human far recklessly
-                                            while caterpillar well a
-                                            well blubbered added one a
-                                            some far whispered rampantly
-                                            whispered while irksome far
-                                            clung irrespective wailed
-                                            more rosily and where
-                                            saluted while black dear so
-                                            yikes as considering recast
-                                            to some crass until.
-                                        </p>
-                                        <hr className="wp-block-separator is-style-dots" />
-                                        <p>
-                                            Thanks sniffed in hello
-                                            after in foolhardy and some
-                                            far purposefully much one at
-                                            the much conjointly leapt
-                                            skimpily that quail sheep
-                                            some goodness
-                                            <Link href="/#">
-                                                <a>
-                                                    nightingale
-                                                </a>
-                                            </Link>
-                                            the instead exited expedient
-                                            up far ouch mellifluous
-                                            altruistic and and lighted
-                                            more instead much when
-                                            ferret but the.
-                                        </p>
-                                        <figure className="wp-block-gallery columns-3 wp-block-image">
-                                            <ul className="blocks-gallery-grid">
-                                                <li className="blocks-gallery-item">
-                                                    <Link href="/#">
-                                                        <a>
-                                                            <img
-                                                                className="border-radius-5"
-                                                                src="/assets/imgs/news/thumb-2.jpg"
-                                                                alt=""
-                                                            />
-                                                        </a>
-                                                    </Link>
-                                                </li>
-                                                <li className="blocks-gallery-item">
-                                                    <Link href="/#">
-                                                        <a>
-                                                            <img
-                                                                className="border-radius-5"
-                                                                src="/assets/imgs/news/thumb-3.jpg"
-                                                                alt=""
-                                                            />
-                                                        </a>
-                                                    </Link>
-                                                </li>
-                                                <li className="blocks-gallery-item">
-                                                    <Link href="/#">
-                                                        <a>
-                                                            <img
-                                                                className="border-radius-5"
-                                                                src="/assets/imgs/news/thumb-4.jpg"
-                                                                alt=""
-                                                            />
-                                                        </a>
-                                                    </Link>
-                                                </li>
-                                            </ul>
-                                            <figcaption>
-
-                                                <i className="ti-credit-card mr-5"></i>
-                                                Image credit: Pexel
-                                            </figcaption>
-                                        </figure>
-                                        <hr className="section-divider" />
-                                        <p>
-                                            Yet more some certainly yet
-                                            alas abandonedly whispered
-                                            <Link href="/#">
-                                                <a>
-                                                    intriguingly
-                                                </a>
-                                            </Link>
-                                            <sup>
-                                                <Link href="/#">
-                                                    <a>[2]</a>
-                                                </Link>
-                                            </sup>
-                                            well extensive one howled
-                                            talkative admonishingly
-                                            below a rethought overlaid
-                                            dear gosh activated less
-                                            <Link href="/#">
-                                                <a>however</a>
-                                            </Link>
-                                            hawk yet oh scratched
-                                            ostrich some outside crud
-                                            irrespective lightheartedly
-                                            and much far amenably that
-                                            the elephant since when.
-                                        </p>
-                                        <h2>The Guitar Legends</h2>
-                                        <p>
-                                            Furrowed this in the upset
-                                            <Link href="/#">
-                                                <a>
-                                                    some across
-                                                </a>
-                                            </Link>
-                                            <sup>
-                                                <Link href="/#">
-                                                    <a>[3]</a>
-                                                </Link>
-                                            </sup>
-                                            tiger oh loaded house gosh
-                                            whispered
-                                            <Link href="/#">
-                                                <a>
-                                                    faltering alas
-                                                </a>
-                                            </Link>
-                                            <sup>
-                                                <Link href="/#">
-                                                    <a>[4]</a>
-                                                </Link>
-                                            </sup>
-                                            ouch cuckoo coward in
-                                            scratched undid together bit
-                                            fumblingly so besides
-                                            salamander heron during the
-                                            jeepers hello fitting
-                                            jauntily much smoothly
-                                            globefish darn blessedly far
-                                            so along bluebird leopard
-                                            and.
-                                        </p>
-                                        <blockquote>
-                                            <p>
-                                                Integer eu faucibus
-                                                <Link href="/#">
-                                                    <a>dolor</a>
-                                                </Link>
-                                                <sup>
-                                                    <Link href="/#">
-                                                        <a>[5]</a>
-                                                    </Link>
-                                                </sup>
-                                                . Ut venenatis tincidunt
-                                                diam elementum
-                                                imperdiet. Etiam
-                                                accumsan semper nisl eu
-                                                congue. Sed aliquam
-                                                magna erat, ac eleifend
-                                                lacus rhoncus in.
-                                            </p>
-                                        </blockquote>
-                                        <p>
-                                            Fretful human far recklessly
-                                            while caterpillar well a
-                                            well blubbered added one a
-                                            some far whispered rampantly
-                                            whispered while irksome far
-                                            clung irrespective wailed
-                                            more rosily and where
-                                            saluted while black dear so
-                                            yikes as considering recast
-                                            to some crass until cow much
-                                            less and rakishly overdrew
-                                            consistent for by
-                                            responsible oh one
-                                            hypocritical less bastard
-                                            hey oversaw zebra browbeat a
-                                            well.
-                                        </p>
-                                        <h3>Getting Crypto Rich</h3>
-                                        <hr className="wp-block-separator is-style-wide" />
-                                        <div className="wp-block-image">
-                                            <figure className="alignleft is-resized">
-                                                <img
-                                                    className="border-radius-5"
-                                                    src="/assets/imgs/news/thumb-11.jpg"
-                                                />
-                                                <figcaption>
-
-                                                    And far contrary
-                                                    smoked some contrary
-                                                    among stealthy
-                                                </figcaption>
-                                            </figure>
-                                        </div>
-                                        <p>
-                                            And far contrary smoked some
-                                            contrary among stealthy
-                                            engagingly suspiciously a
-                                            cockatoo far circa sank
-                                            dully lewd slick cracked
-                                            llama the much gecko yikes
-                                            more squirrel sniffed this
-                                            and the the much within
-                                            uninhibited this abominable
-                                            a blubbered overdid foresaw
-                                            through alas the
-                                            pessimistic.
-                                        </p>
-                                        <p>
-                                            Gosh jaguar ostrich quail
-                                            one excited dear hello and
-                                            bound and the and bland
-                                            moral misheard roadrunner
-                                            flapped lynx far that and
-                                            jeepers giggled far and far
-                                            bald that roadrunner python
-                                            inside held shrewdly the
-                                            manatee.
-                                        </p>
-                                        <hr className="section-divider" />
-                                        <p>
-                                            Thanks sniffed in hello
-                                            after in foolhardy and some
-                                            far purposefully much one at
-                                            the much conjointly leapt
-                                            skimpily that quail sheep
-                                            some goodness nightingale
-                                            the instead exited expedient
-                                            up far ouch mellifluous
-                                            altruistic and and lighted
-                                            more instead much when
-                                            ferret but the.
-                                        </p>
-                                        {/* <!--Begin Subcrible--> */}
-                                        <div className="border-radius-10 border bg-white mb-30 p-30 wow fadeIn animated">
-                                            <div className="row justify-content-between">
-                                                <div className="col-md-5 mb-2 mb-md-0">
-                                                    <h5 className="font-weight-bold secondfont mb-30 mt-0">
-                                                        Become a member
-                                                    </h5>
-                                                    <p className="font-small">
-                                                        Get the latest
-                                                        news right in
-                                                        your inbox. We
-                                                        never spam!
-                                                    </p>
-                                                </div>
-                                                <div className="col-md-7">
-                                                    <div className="row">
-                                                        <div className="col-md-12">
-                                                            <input
-                                                                type="text"
-                                                                className="form-control"
-                                                                placeholder="Enter your e-mail address"
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-12 mt-2">
-                                                            <button
-                                                                type="submit"
-                                                                className="btn btn-primary btn-block"
-                                                            >
-                                                                Subscribe
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* <!--End Subcrible--> */}
-                                        <p>
-                                            Yet more some certainly yet
-                                            alas abandonedly whispered
-                                            intriguingly well extensive
-                                            one howled talkative
-                                            admonishingly below a
-                                            rethought overlaid dear gosh
-                                            activated less however hawk
-                                            yet oh scratched ostrich
-                                            some outside crud
-                                            irrespective lightheartedly
-                                            and much far amenably that
-                                            the elephant since when.
-                                        </p>
-                                    </div>
-
+                                    
                                     <div className="entry-bottom mt-50 mb-30 wow fadeIn animated">
                                         <div className="tags">
                                             <span>Tags: </span>
-
+{/* 
                                             <Link href="/category">
-                                                <a>{singleData.tags[0]}</a>
+                                                <a>{blog?.tags[0]}</a>
                                             </Link>
                                             <Link href="/category">
-                                                <a>{singleData.tags[1]}</a>
+                                                <a>{blog?.tags[1]}</a>
                                             </Link>
                                             <Link href="/category">
-                                                <a>{singleData.tags[2]}</a>
-                                            </Link>
+                                                <a>{blog?.tags[2]}</a>
+                                            </Link> */}
                                         </div>
                                     </div>
                                     <div className="single-social-share clearfix wow fadeIn animated">
                                         <div className="entry-meta meta-1 font-small color-grey float-left mt-10">
                                             <span className="hit-count mr-15">
                                                 <i className="elegant-icon icon_comment_alt mr-5"></i>
-                                                {singleData.comments} comments
+                                                {blog?.comments} comments
                                             </span>
                                             <span className="hit-count mr-15">
                                                 <i className="elegant-icon icon_like mr-5"></i>
-                                                {singleData.likes} likes
+                                                {blog?.likes} likes
                                             </span>
                                             <span className="hit-count">
                                                 <i className="elegant-icon icon_star-half_alt mr-5"></i>
-                                                Rate: {singleData.rating}/10
+                                                Rate: {blog?.rating}/10
                                             </span>
                                         </div>
                                         <ul className="header-social-network d-inline-block list-inline float-md-right mt-md-0 mt-4">
@@ -487,7 +177,7 @@ const SingleVendor = () => {
                                     {/* <!--author box--> */}
                                     <div className="author-bio p-30 mt-50 border-radius-10 bg-white wow fadeIn animated">
                                         <div className="author-image mb-30">
-                                            <Link href="/author">
+                                            <Link href={`/author/${blog?.user?._id}`}>
                                                 <a>
                                                     <img
                                                         src="/assets/imgs/authors/author-3.jpg"
@@ -501,9 +191,9 @@ const SingleVendor = () => {
                                             <h4 className="font-weight-bold mb-20">
                                                 <span className="vcard author">
                                                     <span className="fn">
-                                                        <Link href="/author">
+                                                        <Link href={`/author/${blog?.user?._id}`}>
                                                             <a>
-                                                                {singleData.author}
+                                                                {data?.user?.name}
                                                             </a>
                                                         </Link>
                                                     </span>
@@ -520,9 +210,9 @@ const SingleVendor = () => {
                                                 different words on a
                                                 page.
                                             </div>
-                                            <Link href="/author">
+                                            <Link href={`/author/${blog?.user?._id}`}>
                                                 <a className="author-bio-link mb-md-0 mb-3">
-                                                    View all posts ({singleData.totalPost})
+                                                    View all posts ({data?.totalPost})
                                                 </a>
                                             </Link>
                                             <div className="author-social">

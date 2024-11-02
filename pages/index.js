@@ -3,14 +3,17 @@ import Layout from "./../components/layout/layout";
 import PostCarousel1 from "./../components/slider/PostCarousel1";
 import post from "../data/post.json";
 import author from "../data/author.json";
+import api from "../components/axios.instance";
+import moment from "moment";
 
-export const getStaticProps = async () => {
-    return {
-        props: {
-            posts: post
-        }
-    };
-};
+export async function getServerSideProps() {
+    // Fetch data from external API
+    const res = await api.get('/blog')
+
+    // Pass data to the page via props
+    return { props: { posts: res.data } }
+}
+
 
 function Home({ posts }) {
     return (
@@ -97,7 +100,7 @@ function Home({ posts }) {
                                 <div className="col-lg-8 mb-30">
                                     <PostCarousel1 />
                                 </div>
-                                {post.slice(1, 5).map((item, i) => (
+                                {posts.slice(0, 5).map((item, i) => (
                                     <article
                                         key={i}
                                         className="col-lg-4 col-md-6 mb-30 wow fadeInUp animated"
@@ -107,10 +110,10 @@ function Home({ posts }) {
                                             <div
                                                 className="post-thumb thumb-overlay img-hover-slide position-relative"
                                                 style={{
-                                                    backgroundImage: `url(assets/imgs/news/${item.img})`
+                                                    backgroundImage: `url(${item?.image})`
                                                 }}
                                             >
-                                                <Link href={`/blog/${item.id}`}>
+                                                <Link href={`/blog/${item?._id}`}>
                                                     <a
                                                         className="img-link"
                                                     ></a>
@@ -163,31 +166,31 @@ function Home({ posts }) {
                                             </div>
                                             <div className="post-content p-30">
                                                 <div className="entry-meta meta-0 font-small mb-10">
-                                                    <Link href={`/category/${item.category}`}>
+                                                    <Link href={`/category/${item?.category}`}>
                                                         <a>
                                                             <span className="post-cat text-info">
-                                                                {item.category}
+                                                                {item?.category}
                                                             </span>
                                                         </a>
                                                     </Link>
                                                 </div>
                                                 <div className="d-flex post-card-content">
                                                     <h5 className="post-title mb-20 font-weight-900">
-                                                        <Link href={`/blog/${item.id}`}>
+                                                        <Link href={`/blog/${item?._id}`}>
                                                             <a>
-                                                                {item.title}
+                                                                {item?.title}
                                                             </a>
                                                         </Link>
                                                     </h5>
                                                     <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                         <span className="post-on">
-                                                            {item.date}
+                                                            {moment(item?.createdAt).format("MMM DD, YYYY")}
                                                         </span>
                                                         <span className="time-reading has-dot">
-                                                            {item.readTime} mins read
+                                                            {item?.readTime} mins read
                                                         </span>
                                                         <span className="post-by has-dot">
-                                                            {item.views} views
+                                                            {item?.views} views
                                                         </span>
                                                     </div>
                                                 </div>
@@ -195,6 +198,7 @@ function Home({ posts }) {
                                         </div>
                                     </article>
                                 ))}
+                                
                             </div>
                         </div>
                     </div>
@@ -221,10 +225,10 @@ function Home({ posts }) {
                                                             <div
                                                                 className="post-thumb thumb-overlay img-hover-slide position-relative"
                                                                 style={{
-                                                                    backgroundImage: `url(assets/imgs/news/${item.img})`
+                                                                    backgroundImage: `url(assets/imgs/news/${item?.img})`
                                                                 }}
                                                             >
-                                                                <Link href={`/blog/${item.id}`}>
+                                                                <Link href={`/blog/${item?.id}`}>
                                                                     <a
                                                                         className="img-link"
                                                                     ></a>
@@ -277,37 +281,37 @@ function Home({ posts }) {
                                                             </div>
                                                             <div className="post-content p-30">
                                                                 <div className="entry-meta meta-0 font-small mb-10">
-                                                                    <Link href={`/category/${item.category}`}>
+                                                                    <Link href={`/category/${item?.category}`}>
                                                                         <a>
                                                                             <span className="post-cat text-info">
-                                                                                {item.category}
+                                                                                {item?.category}
                                                                             </span>
                                                                         </a>
                                                                     </Link>
                                                                 </div>
                                                                 <div className="d-flex post-card-content">
                                                                     <h5 className="post-title mb-20 font-weight-900">
-                                                                        <Link href={`/blog/${item.id}`}>
+                                                                        <Link href={`/blog/${item?.id}`}>
                                                                             <a>
-                                                                                {item.title}
+                                                                                {item?.title}
                                                                             </a>
                                                                         </Link>
                                                                     </h5>
 
                                                                     <div className="post-excerpt mb-25 font-small text-muted">
                                                                         <p>
-                                                                            {item.desc}
+                                                                            {item?.desc}
                                                                         </p>
                                                                     </div>
                                                                     <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                                         <span className="post-on">
-                                                                            {item.date}
+                                                                            {item?.date}
                                                                         </span>
                                                                         <span className="time-reading has-dot">
-                                                                            {item.readTime} mins read
+                                                                            {item?.readTime} mins read
                                                                         </span>
                                                                         <span className="post-by has-dot">
-                                                                            {item.views} views
+                                                                            {item?.views} views
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -334,9 +338,9 @@ function Home({ posts }) {
                                                             <div className="post-thumb position-relative border-radius-5">
                                                                 <div
                                                                     className="img-hover-slide border-radius-5 position-relative"
-                                                                    style={{ backgroundImage: `url(assets/imgs/news/${item.img})` }}
+                                                                    style={{ backgroundImage: `url(assets/imgs/news/${item?.img})` }}
                                                                 >
-                                                                    <Link href={`/blog/${item.id}`}>
+                                                                    <Link href={`/blog/${item?.id}`}>
                                                                         <a
                                                                             className="img-link"
                                                                         ></a>
@@ -389,18 +393,18 @@ function Home({ posts }) {
                                                         <div className="col-md-8 align-self-center">
                                                             <div className="post-content">
                                                                 <div className="entry-meta meta-0 font-small mb-10">
-                                                                    <Link href={`/category/${item.category}`}>
+                                                                    <Link href={`/category/${item?.category}`}>
                                                                         <a>
                                                                             <span className="post-cat text-primary">
-                                                                                {item.category}
+                                                                                {item?.category}
                                                                             </span>
                                                                         </a>
                                                                     </Link>
                                                                 </div>
                                                                 <h5 className="post-title font-weight-900 mb-20">
-                                                                    <Link href={`/blog/${item.id}`}>
+                                                                    <Link href={`/blog/${item?.id}`}>
                                                                         <a>
-                                                                            {item.title}
+                                                                            {item?.title}
                                                                         </a>
                                                                     </Link>
                                                                     <span className="post-format-icon">
@@ -409,13 +413,13 @@ function Home({ posts }) {
                                                                 </h5>
                                                                 <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                                     <span className="post-on">
-                                                                        {item.date}
+                                                                        {item?.date}
                                                                     </span>
                                                                     <span className="time-reading has-dot">
-                                                                        {item.readTime} mins read
+                                                                        {item?.readTime} mins read
                                                                     </span>
                                                                     <span className="post-by has-dot">
-                                                                        {item.views} views
+                                                                        {item?.views} views
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -500,14 +504,14 @@ function Home({ posts }) {
                                                     <img
                                                         key={i}
                                                         className="about-author-img mb-25"
-                                                        src={`/assets/imgs/authors/${item.img}`}
+                                                        src={`/assets/imgs/authors/${item?.img}`}
                                                         alt=""
                                                     />
                                                     <h5 className="mb-20">
-                                                        Hello, I'm {item.title}
+                                                        Hello, I'm {item?.title}
                                                     </h5>
                                                     <p className="font-medium text-muted">
-                                                        {item.desc}
+                                                        {item?.desc}
                                                     </p>
                                                     <strong>Follow me: </strong>
                                                     <ul className="header-social-network d-inline-block list-inline color-white mb-20">
@@ -563,29 +567,29 @@ function Home({ posts }) {
                                                             <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
                                                                 <div className="post-content media-body">
                                                                     <h6 className="post-title mb-15 text-limit-2-row font-medium">
-                                                                        <Link href={`/blog/${item.id}`}>
+                                                                        <Link href={`/blog/${item?.id}`}>
                                                                             <a>
-                                                                                {item.title}
+                                                                                {item?.title}
                                                                             </a>
                                                                         </Link>
                                                                     </h6>
                                                                     <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                                         <span className="post-on">
-                                                                            {item.date}
+                                                                            {item?.date}
                                                                         </span>
                                                                         <span className="post-by has-dot">
-                                                                            {item.views} views
+                                                                            {item?.views} views
                                                                         </span>
                                                                     </div>
                                                                 </div>
                                                                 <div className="post-thumb post-thumb-80 d-flex ml-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                                    <Link href={`/blog/${item.id}`}>
+                                                                    <Link href={`/blog/${item?.id}`}>
                                                                         <a
                                                                             className="color-white"
 
                                                                         >
                                                                             <img
-                                                                                src={`/assets/imgs/news/${item.img}`}
+                                                                                src={`/assets/imgs/news/${item?.img}`}
                                                                                 alt=""
                                                                             />
                                                                         </a>
