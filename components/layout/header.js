@@ -1,7 +1,40 @@
 import Link from "next/link";
 import Menu from "./menu";
+import { useEffect, useState } from "react";
+import api from "../axios.instance";
+import toast from "react-hot-toast";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
+import app from "../../util/firebase.init";
 
 const Header = ({ addClass, openSearch }) => {
+    const [categories, setCategories] = useState([])
+    const [currentuser, setCurrentUser] = useState(null)
+    const [user] = useAuthState(getAuth(app));
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const res = await api.get('/blog/category')
+                setCategories(res?.data || [])
+
+            } catch (error) {
+                toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
+            }
+        }
+        getCategories()
+    }, [])
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const res = await api.get(`/users/find/one?email=${user?.email}`)
+                setCurrentUser(res.data)
+
+            } catch (error) {
+                toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
+            }
+        }
+        getCategories()
+    }, [user])
     return (
         <>
             <header className="main-header header-style-1 font-heading">
@@ -27,17 +60,25 @@ const Header = ({ addClass, openSearch }) => {
                                         Search
                                     </span>
                                 </button>
-                                <Link href={'/page-login'}>
-                                    <button className="btn btn-radius bg-primary text-white ml-15 font-small box-shadow">
-                                        Login
-                                    </button>
-                                </Link>
-
+                                {
+                                    currentuser ?
+                                        <Link href={`/author/${currentuser?._id}`}>
+                                            <button className="btn btn-radius bg-primary text-white ml-15 font-small box-shadow">
+                                                Profile
+                                            </button>
+                                        </Link>
+                                        :
+                                        <Link href={'/page-login'}>
+                                            <button className="btn btn-radius bg-primary text-white ml-15 font-small box-shadow">
+                                                Login
+                                            </button>
+                                        </Link>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
-                <Menu addClass={addClass} />
+                <Menu addClass={addClass} categories={categories} />
             </header>
         </>
     );

@@ -9,10 +9,16 @@ import { getAuth } from "firebase/auth";
 import app from "../../util/firebase.init";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Spin } from "antd";
+import dynamic from 'next/dynamic';
+import PrivateLayout from "../../components/layout/PrivateLayout";
+import { Select } from "antd";
+import { Form } from "antd";
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 function BasicDemo() {
     const [text, setText] = useState('');
     const [title, setTitle] = useState('');
     const [image, setImage] = useState(null);
+    const [tags, setTags] = useState([]);
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [user, loadingUser] = useAuthState(getAuth(app));
@@ -24,7 +30,7 @@ function BasicDemo() {
                 setCurrentUser(res.data)
             })
         }
-    },[user])
+    }, [user])
     const uploadFile = async () => {
         try {
             const imageData = new FormData()
@@ -36,31 +42,48 @@ function BasicDemo() {
             console.error(error)
         }
     }
-
-    const handlePublish = async () => {
+    const onFinish = async (data) => {
         try {
-            if (!title || !text || !image) {
-                return toast.error('All fields are required')
+            if (!text || !image) {
+                return toast.error('Please add Content and Image')
             }
+            setLoading(true)
             const imageUrl = await uploadFile()
 
-            setLoading(true)
             const res = await api.post('/blog', {
-                title: title,
+                title: data.title,
                 content: text,
                 image: imageUrl,
-                user: currentuser._id
+                user: currentuser._id,
+                tags: tags,
+                category: data.category,
+                desc: data.desc
             })
             setLoading(false)
-            console.log(res.data)
+            toast.success(res?.data?.message || 'Blog created successfully')
         } catch (error) {
             console.error(error)
             setLoading(false)
         }
     }
-    if (loadingUser || loading) {
-        return <Spin size="large" />
-    }
+    const [categories, setCategories] = useState([])
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const res = await api.get('/blog/category')
+                setCategories(res?.data || [])
+            } catch (error) {
+                toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
+            }
+        }
+        getCategories()
+    }, [])
+    // const onFinish = async (values) => {
+    //     console.log('Success:', values);
+    // }
+    // if (loadingUser || loading) {
+    //     return <Spin size="large" />
+    // }
     return (
         <div className="container"
             style={{
@@ -69,60 +92,133 @@ function BasicDemo() {
         >
 
             <h2 className="mb-4">Write New Blog Here</h2>
-            <Input
-                placeholder="Title"
-                size="large"
-                style={{
-                    marginTop: '20px'
-                }}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            <label
-                className="blog-cover"
-                htmlFor="cover"
-                style={{
-                    backgroundImage: imagePreview ? `url(${imagePreview})` : 'none',
-                    marginTop: '20px',
-                    cursor: 'pointer',
-                }}
+            <Form
+                layout="vertical"
+                name="basic"
+                onFinish={onFinish}
             >
-                {
-                    <div className="overlay"
+                <Form.Item
+                    label="Title"
+                    name="title"
+                    rules={[{ required: true, message: 'Please input title!' }]}
+                >
+                    <Input
+                        placeholder="Title"
+                        size="large"
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Description"
+                    name="desc"
+                    rules={[{ required: true, message: 'Please input Description!' }]}
+                >
+                    <Input.TextArea
+                        rows={4}
+                        placeholder="Short Description with max 150 characters"
+                        size="large"
+                        maxLength={150}
+                    />
+                </Form.Item>
+
+
+                <Form.Item
+                    label="Tags"
+                >
+                    <Input
+                        placeholder="Tags"
+                        size="large"
                         style={{
-                            opacity: imagePreview ? 0.4 : 1
+                            marginTop: '20px'
+                        }}
+                        value={tags.join(',')}
+                        onChange={(e) => {
+                            setTags(e.target.value.split(','))
+                        }}
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Category"
+                    name="category"
+                    rules={[{ required: true, message: 'Please select category!' }]}
+                >
+                    <Select
+                        className="w-100 mt-3"
+                        size="large"
+                        placeholder="Select Category"
+                        options={[
+                            { value: '', label: 'Select Category' },
+                            ...categories.map((category) => ({
+                                value: category.name,
+                                label: category.name
+                            })),
+
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="Cover"
+                >
+                    <label
+                        className="blog-cover"
+                        htmlFor="cover"
+                        style={{
+                            backgroundImage: imagePreview ? `url(${imagePreview})` : 'none',
+                            marginTop: '20px',
+                            cursor: 'pointer',
                         }}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
-                            style={{
-                                width: '30px',
-                                height: '30px'
-                            }}
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        <p>
-                            Click here to  Upload Image
-                        </p>
-                    </div>
-                }
-            </label>
-            <input
-                onChange={(e) => {
-                    if (e.target.files[0]) {
-                        setImage(e.target.files[0])
-                        setImagePreview(URL.createObjectURL(e.target.files[0]))
-                    }
-                }}
-                type="file" name="cover" id="cover" accept="image/*"
-                className="d-none"
-            />
-            <Editor value={text} onTextChange={(e) => setText(e.htmlValue)} style={{ minHeight: '500px' }} />
-            <button
-                onClick={handlePublish}
-                className="btn btn-primary btn-lg mt-4">
-                Publish Blog
-            </button>
+                        {
+                            <div className="overlay"
+                                style={{
+                                    opacity: imagePreview ? 0.4 : 1
+                                }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
+                                    style={{
+                                        width: '30px',
+                                        height: '30px'
+                                    }}
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                <p>
+                                    Click here to  Upload Image
+                                </p>
+                            </div>
+                        }
+                    </label>
+                </Form.Item>
+                <input
+                    onChange={(e) => {
+                        if (e.target.files[0]) {
+                            setImage(e.target.files[0])
+                            setImagePreview(URL.createObjectURL(e.target.files[0]))
+                        }
+                    }}
+                    type="file" name="cover" id="cover" accept="image/*"
+                    className="d-none"
+                />
+                {/* <Editor value={text} onTextChange={(e) => setText(e.htmlValue)} style={{ minHeight: '500px' }} /> */}
+                <Form.Item
+                    label="Content"
+                >
+                    <JoditEditor
+                        value={text}
+                        //   config={config}
+                        tabIndex={1}
+                        onBlur={newContent => setText(newContent)}
+                        onChange={newContent => setText(newContent)}
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <button
+                        disabled={loading}
+                        type="submit"
+                        className="btn btn-primary btn-md mt-4">
+                        Publish Blog <Spin spinning={loading} />
+                    </button>
+                </Form.Item>
+            </Form>
         </div>
     )
 }
@@ -130,9 +226,9 @@ function BasicDemo() {
 
 const write = () => {
     return (
-        <Layout>
+        <PrivateLayout>
             <BasicDemo />
-        </Layout>
+        </PrivateLayout>
     );
 };
 

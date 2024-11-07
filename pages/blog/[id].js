@@ -22,7 +22,8 @@ const SingleVendor = ({ blog }) => {
 
     return (
         <>
-            <Layout>
+
+            <Layout title={blog?.title} description={blog?.desc}>
                 {blog && (
                     <>
                         <main className="bg-grey pb-30">

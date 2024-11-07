@@ -2,26 +2,33 @@ import Link from "next/link";
 import { useEffect, useLayoutEffect, useState } from "react";
 import NavMenu from "./nav";
 
-const Menu = ({ addClass }) => {
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+const Menu = ({ addClass, categories }) => {
     const [scroll, setScroll] = useState(0);
     const [isToggled, setToggled] = useState(false);
     const [size, setSize] = useState(0);
 
     const toggleTrueFalse = () => setToggled(!isToggled);
+
     useEffect(() => {
-        document.addEventListener("scroll", () => {
+        const handleScroll = () => {
             const scrollCheck = window.scrollY > 100;
             if (scrollCheck !== scroll) {
                 setScroll(scrollCheck);
             }
-        });
-    });
+        };
+        document.addEventListener("scroll", handleScroll);
+        return () => document.removeEventListener("scroll", handleScroll);
+    }, [scroll]);
 
-    useLayoutEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         function updateSize() {
-            setSize([window.innerWidth]);
+            setSize(window.innerWidth);
         }
+        updateSize(); // Initial size check
         window.addEventListener("resize", updateSize);
+        return () => window.removeEventListener("resize", updateSize);
     }, []);
 
     return (
@@ -38,23 +45,6 @@ const Menu = ({ addClass }) => {
                                             Home
                                         </a>
                                     </Link>
-                                    {/* <ul className="sub-menu text-muted font-small">
-                                        <li>
-                                            <Link href="/">
-                                                <a>Home default</a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/home-2">
-                                                <a>Homepage 2</a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/home-3">
-                                                <a>Homepage 3</a>
-                                            </Link>
-                                        </li>
-                                    </ul> */}
                                 </li>
                                 <li>
                                     <Link href="/category/travel">
@@ -67,183 +57,66 @@ const Menu = ({ addClass }) => {
                                     </Link>
                                     <ul className="mega-menu">
                                         <li className="sub-mega-menu sub-mega-menu-width-22">
-                                            <Link href="#">
-                                                <a>Travel Blog</a>
-                                            </Link>
                                             <ul>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Destinations</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Tour Guides</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Travel Food</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Hotels Booking</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Transport Review</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Travel Healthy</a>
-                                                    </Link>
-                                                </li>
+                                                {
+                                                    categories?.slice(0, 7).map((category) => (
+                                                        <li key={category._id}>
+                                                            <Link href={`/category/${category.name}`}>
+                                                                <a>{category.name}</a>
+                                                            </Link>
+                                                        </li>
+                                                    ))
+                                                }
+
                                             </ul>
                                         </li>
                                         <li className="sub-mega-menu sub-mega-menu-width-22">
-                                            <Link href="#">
-                                                <a>Fruit &amp; Vegetables</a>
-                                            </Link>
                                             <ul>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Meat &amp; Poultry</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Fresh Vegetables</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Herbs &amp; Seasonings</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Cuts &amp; Sprouts</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Exotic Fruits &amp; Veggies</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Packaged Produce</a>
-                                                    </Link>
-                                                </li>
+                                                {
+                                                    categories?.slice(8, 14)?.map((category) => (
+                                                        <li key={category._id}>
+                                                            <Link href={`/category/${category.name}`}>
+                                                                <a>{category.name}</a>
+                                                            </Link>
+                                                        </li>
+                                                    ))
+                                                }
+
                                             </ul>
                                         </li>
                                         <li className="sub-mega-menu sub-mega-menu-width-22">
-                                            <Link href="#">
-                                                <a>Breakfast &amp; Dairy</a>
-                                            </Link>
+                                          
                                             <ul>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Milk &amp; Flavoured Milk</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Butter and Margarine</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Eggs Substitutes</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Marmalades</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Sour Cream</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Cheese</a>
-                                                    </Link>
-                                                </li>
+                                            {
+                                                    categories?.slice(15, 21)?.map((category) => (
+                                                        <li key={category._id}>
+                                                            <Link href={`/category/${category.name}`}>
+                                                                <a>{category.name}</a>
+                                                            </Link>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </li>
                                         <li className="sub-mega-menu sub-mega-menu-width-22">
-                                            <Link href="#">
-                                                <a>Meat &amp; Seafood</a>
-                                            </Link>
-                                            <ul>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Breakfast Sausage</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Dinner Sausage</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Chicken</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Sliced Deli Meat</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Wild Caught Fillets</a>
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link href="/category-grid">
-                                                        <a>Crab and Shellfish</a>
-                                                    </Link>
-                                                </li>
+                                        <ul>
+                                                {
+                                                    categories?.slice(21, 28)?.map((category) => (
+                                                        <li key={category._id}>
+                                                            <Link href={`/category/${category.name}`}>
+                                                                <a>{category.name}</a>
+                                                            </Link>
+                                                        </li>
+                                                    ))
+                                                }
+
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <Link href="/category-grid">
-                                        <a>Guides</a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/category-masonry">
-                                        <a>Food</a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/category/hotels">
-                                        <a>Hotels</a>
-                                    </Link>
-                                </li>
-                                <li>
                                     <Link href="/category">
                                         <a>Review</a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/category">
-                                        <a>Healthy </a>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/category">
-                                        <a>Lifestyle</a>
                                     </Link>
                                 </li>
                                 <li>

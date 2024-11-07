@@ -3,20 +3,20 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout/layout";
 import data from "../../data/post.json";
-function CaregoryList() {
-    const router = useRouter()    
-    const { category } = router.query;
-    console.log(category);
-    const [catList, setCatList] = useState([]);
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+import { useQuery } from "@tanstack/react-query";
+import api from "../../components/axios.instance";
 
-    const fetchProducts = async () => {
-        const filterItem = data.filter((item) => item.category === category);
-        setCatList(filterItem);
+export const getServerSideProps = async ({ params }) => {
+    const res = await api.get(`/blog?category=${params.category}`);
+    const data = await res.data;
+    return {
+        props: { catList: data },
     };
+};
 
+function CaregoryList({ catList }) {
+    const router = useRouter();
+    const { category } = router.query;
     return (
         <>
             <Layout>
@@ -42,16 +42,16 @@ function CaregoryList() {
                                 <div className="col-lg-8">
                                     <div className="post-module-3">
                                         <div className="loop-list loop-list-style-1">
-                                            {catList.map((item, i) => (
-                                                <article className="hover-up-2 transition-normal wow fadeInUp animated">
+                                            {catList?.map((item, i) => (
+                                                <article key={i} className="hover-up-2 transition-normal wow fadeInUp animated">
                                                     <div className="row mb-40 list-style-2">
                                                         <div className="col-md-4">
                                                             <div className="post-thumb position-relative border-radius-5">
                                                                 <div
                                                                     className="img-hover-slide border-radius-5 position-relative"
-                                                                    style={{ backgroundImage: `url(/assets/imgs/news/${item.img})` }}
+                                                                    style={{ backgroundImage: `url(${item.image})` }}
                                                                 >
-                                                                    <Link href={`/blog/${item.id}`}>
+                                                                    <Link href={`/blog/${item._id}`}>
                                                                         <a
                                                                             className="img-link"
                                                                         ></a>
@@ -113,7 +113,7 @@ function CaregoryList() {
                                                                     </Link>
                                                                 </div>
                                                                 <h5 className="post-title font-weight-900 mb-20">
-                                                                    <Link href={`/blog/${item.id}`}>
+                                                                    <Link href={`/blog/${item._id}`}>
                                                                         <a>
                                                                             {item.title}
                                                                         </a>

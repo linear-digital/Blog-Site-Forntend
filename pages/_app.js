@@ -9,7 +9,12 @@ import "../public/assets/css/widgets.css";
 import "../public/assets/css/responsive.css";
 import 'metismenujs/style';
 import './blog/blog.css'
+import {
 
+    QueryClient,
+    QueryClientProvider,
+  } from '@tanstack/react-query'
+  const queryClient = new QueryClient()
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
 
@@ -33,14 +38,16 @@ function MyApp({ Component, pageProps }) {
 
         // Cleanup: remove routeChangeError event listener
         return () => {
-            router.events.off('routeChangeError', () => {});
+            router.events.off('routeChangeError', () => { });
         };
     }, [router.events]);
 
     return (
-        <PrimeReactProvider>
-            <Component {...pageProps} />
-        </PrimeReactProvider>
+        <QueryClientProvider client={queryClient}>
+            <PrimeReactProvider>
+                <Component {...pageProps} />
+            </PrimeReactProvider>
+        </QueryClientProvider>
     );
 }
 

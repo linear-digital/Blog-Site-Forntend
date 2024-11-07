@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from "firebase/auth";
 import app from "../../util/firebase.init";
 import api, { getCurrentUser } from "../../components/axios.instance";
+import { Avatar } from "antd";
 function Author() {
 
     let Router = useRouter()
@@ -43,12 +44,12 @@ function Author() {
                                 {/* <!--author box--> */}
                                 {singleData && (
                                     <div className="author-bio mb-50 bg-white p-30 border-radius-10">
-                                        <div className="author-image mb-30">
+                                        <div className="author-image mb-20">
                                             <a href={`/author/${singleData._id}`}>
-                                                <img
+                                                <Avatar
+                                                    size={90}
                                                     src={`${singleData.avatar}`}
                                                     alt=""
-                                                    className="avatar"
                                                 />
                                             </a>
                                         </div>
@@ -57,7 +58,7 @@ function Author() {
                                                 <span className="vcard author">
                                                     <span className="fn">
                                                         <a
-                                                            href="/author"
+                                                            href={`/author/${singleData._id}`}
                                                             title="Posts by Steven"
                                                             rel="author"
                                                         >
@@ -66,13 +67,7 @@ function Author() {
                                                     </span>
                                                 </span>
                                             </h3>
-                                            <h5 className="text-muted">
-                                                About author
-                                            </h5>
-                                            <div className="author-description text-muted">
-                                                {singleData.desc}
-                                            </div>
-                                            <strong className="text-muted">
+                                            <strong className="text-muted mt-4">
                                                 Follow:{" "}
                                             </strong>
                                             <ul className="header-social-network d-inline-block list-inline color-white mb-20">

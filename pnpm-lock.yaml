@@ -14,6 +14,9 @@ importers:
       '@cloudinary/url-gen':
         specifier: ^1.21.0
         version: 1.21.0
+      '@tanstack/react-query':
+        specifier: ^5.59.19
+        version: 5.59.19(react@18.1.0)
       antd:
         specifier: ^5.21.5
         version: 5.21.5(moment@2.30.1)(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
@@ -23,6 +26,9 @@ importers:
       firebase:
         specifier: ^11.0.1
         version: 11.0.1
+      jodit-react:
+        specifier: ^4.1.2
+        version: 4.1.2(react-dom@18.1.0(react@18.1.0))(react@18.1.0)
       masonry-layout:
         specifier: ^4.2.2
         version: 4.2.2
@@ -522,6 +528,14 @@ packages:
   '@swc/helpers@0.4.11':
     resolution: {integrity: sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==}
 
+  '@tanstack/query-core@5.59.17':
+    resolution: {integrity: sha512-jWdDiif8kaqnRGHNXAa9CnudtxY5v9DUxXhodgqX2Rwzj+1UwStDHEbBd9IA5C7VYAaJ2s+BxFR6PUBs8ERorA==}
+
+  '@tanstack/react-query@5.59.19':
+    resolution: {integrity: sha512-xLRfyFyQOFcLltKCds0LijfC6/HQJrrTTnZB8ciyn74LIkVAm++vZJ6eUVG20RmJtdP8REdy7vSOYW4M3//XLA==}
+    peerDependencies:
+      react: ^18 || ^19
+
   '@types/lodash.clonedeep@4.5.9':
     resolution: {integrity: sha512-19429mWC+FyaAhOLzsS8kZUsI+/GmBAQ0HFiCPsKGU+7pBXOQWhyrY6xNNDwUSX8SMZMJvuFVMF9O5dQOlQK9Q==}
 
@@ -568,6 +582,10 @@ packages:
 
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  autobind-decorator@2.4.0:
+    resolution: {integrity: sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==}
+    engines: {node: '>=8.10', npm: '>=6.4.1'}
 
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
@@ -684,6 +702,15 @@ packages:
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
+
+  jodit-react@4.1.2:
+    resolution: {integrity: sha512-Hs1evpM1IK5zvy/5m5Gk819L8aC+9EmEdQvCoLHVUr/R3vtH4nYFD6wsMRj3ur3J4ZHhaSBjt0N3R7ggwP405Q==}
+    peerDependencies:
+      react: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+
+  jodit@4.2.38:
+    resolution: {integrity: sha512-pewigpl3/T3OF7cRS+7pWa1yRP7J2yqhPYCkwMafHiA+1qR/v5+NoJoGHEOUmGtiLvJRltEcxTDPAVXxyaxNrw==}
 
   jquery@3.7.1:
     resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
@@ -1741,6 +1768,13 @@ snapshots:
     dependencies:
       tslib: 2.7.0
 
+  '@tanstack/query-core@5.59.17': {}
+
+  '@tanstack/react-query@5.59.19(react@18.1.0)':
+    dependencies:
+      '@tanstack/query-core': 5.59.17
+      react: 18.1.0
+
   '@types/lodash.clonedeep@4.5.9':
     dependencies:
       '@types/lodash': 4.17.13
@@ -1837,6 +1871,8 @@ snapshots:
   array-tree-filter@2.1.0: {}
 
   asynckit@0.4.0: {}
+
+  autobind-decorator@2.4.0: {}
 
   axios@1.7.7:
     dependencies:
@@ -1965,6 +2001,16 @@ snapshots:
   idb@7.1.1: {}
 
   is-fullwidth-code-point@3.0.0: {}
+
+  jodit-react@4.1.2(react-dom@18.1.0(react@18.1.0))(react@18.1.0):
+    dependencies:
+      jodit: 4.2.38
+      react: 18.1.0
+      react-dom: 18.1.0(react@18.1.0)
+
+  jodit@4.2.38:
+    dependencies:
+      autobind-decorator: 2.4.0
 
   jquery@3.7.1: {}
 

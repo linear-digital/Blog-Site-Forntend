@@ -8,7 +8,7 @@ import BackToTop from "../elements/backToTop";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
 
-const Layout = ({ children, title, description }) => {
+const PrivateLayout = ({ children, title }) => {
     const addClass = () => {
         document.body.classList.add("canvas-opened");
     };
@@ -29,8 +29,6 @@ const Layout = ({ children, title, description }) => {
                         title ? title : "Hazrat Ali - Personal Blog Site"
                     }
                 </title>
-                <meta name="description" content={description ? description : "Hazrat Ali - Personal Blog Site"} />
-                <meta property="og:description" content={description ? description : "Hazrat Ali - Personal Blog Site"} />
                 <meta property="og:title" content={title ? title : "Hazrat Ali - Personal Blog Site"} key="title" />
                 {/* <link href="" rel="stylesheet" /> */}
             </Head>
@@ -40,11 +38,11 @@ const Layout = ({ children, title, description }) => {
             <Toaster />
             {children}
 
-            <Bottom />
-            <Footer removeClass={removeClass} />
+            {/* <Bottom /> */}
+            {/* <Footer removeClass={removeClass} /> */}
             <BackToTop />
         </>
     );
 };
 
-export default Layout;
+export default PrivateLayout;
