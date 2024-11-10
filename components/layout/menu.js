@@ -120,7 +120,7 @@ const Menu = ({ addClass, categories }) => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/category">
+                                    <Link href="/blogs">
                                         <a>Blog</a>
                                     </Link>
                                 </li>

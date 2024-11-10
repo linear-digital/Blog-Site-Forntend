@@ -10,13 +10,13 @@ import BlogCard from "./blog/BlogCard";
 export async function getServerSideProps() {
     // Fetch data from external API
     const res = await api.get('/blog')
-
+    const tags = await api.get('/blog/tags/all')
     // Pass data to the page via props
-    return { props: { posts: res.data } }
+    return { props: { posts: res.data || [], tags: tags.data?.slice(0, 5) || [] } }
 }
 
 
-function Home({ posts }) {
+function Home({ posts, tags }) {
     return (
         <>
             <Layout>
@@ -79,18 +79,16 @@ function Home({ posts }) {
                                             Hot tags:
                                         </p>
                                         <ul className="list-inline d-inline-block tags">
-                                            <li className="list-inline-item">
-                                                <a href="#"># Covid-19</a>
-                                            </li>
-                                            <li className="list-inline-item">
-                                                <a href="#"># Inspiration</a>
-                                            </li>
-                                            <li className="list-inline-item">
-                                                <a href="#"># Work online</a>
-                                            </li>
-                                            <li className="list-inline-item">
-                                                <a href="#"># Stay home</a>
-                                            </li>
+                                            {
+                                                tags?.map((item, i) => (
+                                                    <li key={i} className="list-inline-item">
+                                                        <Link href={`/blogs?tag=${item}`}>
+                                                            <a >
+                                                                #{item}</a>
+                                                        </Link>
+                                                    </li>
+                                                ))
+                                            }
                                         </ul>
                                     </div>
                                 </div>
@@ -198,9 +196,9 @@ function Home({ posts }) {
                                     //         </div>
                                     //     </div>
                                     // </article>
-                                    <BlogCard key={i} item={item}/>
+                                    <BlogCard key={i} item={item} />
                                 ))}
-                                
+
                             </div>
                         </div>
                     </div>

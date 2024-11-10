@@ -36,6 +36,7 @@ const Categorys = () => {
         }
         getCategories()
     }, [change])
+
     return (
         <div className='container mt-4'>
             <h2>Categorys</h2>
@@ -60,6 +61,7 @@ const Categorys = () => {
                 </Form.Item>
             </Form>
             <Table
+                loading={categories.length === 0}
                 dataSource={categories}
                 columns={[
                     {
