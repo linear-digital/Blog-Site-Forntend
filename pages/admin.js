@@ -3,6 +3,7 @@ import PrivateLayout from '../components/layout/PrivateLayout';
 import Categorys from '../components/Setting/Categorys';
 import { useRouter } from 'next/router';
 import Blogs from '../components/Setting/Blogs';
+import Users from '../components/Setting/Users';
 
 const settings = () => {
     const query = useRouter().query
@@ -14,6 +15,9 @@ const settings = () => {
             }
             {
                 (category === 'blog' || !category) && <Blogs />
+            }
+            {
+                (category === 'users' || !category) && <Users />
             }
         </PrivateLayout>
     );
