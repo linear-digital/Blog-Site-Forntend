@@ -1,6 +1,15 @@
 import Link from "next/link";
 import React from "react";
-const Footer = ({ removeClass }) => {
+import api from "../axios.instance";
+export async function getServerSideProps() {
+    // Fetch data from external API
+    const tags = await api.get('/blog/tags/all')
+    // Pass data to the page via props
+    return { props: { tags: tags.data || [] } }
+}
+
+const Footer = ({ removeClass, tags }) => {
+
     return (
         <>
             <footer className="pt-50 pb-20 bg-grey">
@@ -121,6 +130,17 @@ const Footer = ({ removeClass }) => {
                                     <h5 className="mt-5 mb-30">Tagcloud</h5>
                                 </div>
                                 <div className="tagcloud mt-50">
+                                    {
+                                        tags?.map((item, i) => (
+                                            <Link key={i} href={`/tags/${item}`}>
+                                                <a
+                                                    className="tag-cloud-link"
+                                                >
+                                                    {item}
+                                                </a>
+                                            </Link>
+                                        ))
+                                    }
                                     <Link href="/category">
                                         <a
                                             className="tag-cloud-link"
@@ -128,48 +148,7 @@ const Footer = ({ removeClass }) => {
                                             beautiful
                                         </a>
                                     </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            New York
-                                        </a>
-                                    </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            droll
-                                        </a>
-                                    </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            intimate
-                                        </a>
-                                    </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            loving
-                                        </a>
-                                    </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            travel
-                                        </a>
-                                    </Link>
-                                    <Link href="/category">
-                                        <a
-                                            className="tag-cloud-link"
-                                        >
-                                            fighting{" "}
-                                        </a>
-                                    </Link>
+
                                 </div>
                             </div>
                         </div>

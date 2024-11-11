@@ -3,13 +3,13 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 
-const BlogCard = ({ item, author }) => {
+const BlogCard = ({ item, author, home }) => {
     if (!item) {
         return null
     }
     return (
         <article
-            className={author ? "col-md-6 mb-30 wow fadeInUp animated" : "col-lg-4 col-md-6 mb-30 wow fadeInUp animated"}
+            className={author ? "col-md-6 mb-30 wow fadeInUp animated" : home ? "col-md-6 mb-30 wow fadeInUp animated" : "col-lg-4 col-md-6 mb-30 wow fadeInUp animated"}
             data-wow-delay="0.2s"
         >
             <div className="post-card-1 border-radius-10 hover-up position-relative">

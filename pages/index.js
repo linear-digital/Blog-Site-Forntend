@@ -6,6 +6,7 @@ import author from "../data/author.json";
 import api from "../components/axios.instance";
 import moment from "moment";
 import BlogCard from "./blog/BlogCard";
+import SubscribeForm from "../components/SubscribeForm";
 
 export async function getServerSideProps() {
     // Fetch data from external API
@@ -41,19 +42,7 @@ function Home({ posts, tags }) {
                                         Travel tips, Hotels review, Food
                                         guide...
                                     </h5>
-                                    <form className="input-group form-subcriber mt-30 d-flex">
-                                        <input
-                                            type="email"
-                                            className="form-control bg-white font-small"
-                                            placeholder="Enter your email"
-                                        />
-                                        <button
-                                            className="btn bg-primary text-white"
-                                            type="submit"
-                                        >
-                                            Subscribe
-                                        </button>
-                                    </form>
+                                    <SubscribeForm />
                                 </div>
                                 <div className="col-lg-6 text-right d-none d-lg-block">
                                     <img
@@ -64,7 +53,7 @@ function Home({ posts, tags }) {
                             </div>
                         </div>
                     </div>
-                    <div className="container">
+                    {/* <div className="container">
                         <div className="hot-tags pt-30 pb-30 font-small align-self-center">
                             <div className="widget-header-3">
                                 <div className="row align-self-center">
@@ -100,108 +89,12 @@ function Home({ posts, tags }) {
                                     <PostCarousel1 />
                                 </div>
                                 {posts.slice(0, 5).map((item, i) => (
-                                    // <article
-                                    //     key={i}
-                                    //     className="col-lg-4 col-md-6 mb-30 wow fadeInUp animated"
-                                    //     data-wow-delay="0.2s"
-                                    // >
-                                    //     <div className="post-card-1 border-radius-10 hover-up">
-                                    //         <div
-                                    //             className="post-thumb thumb-overlay img-hover-slide position-relative"
-                                    //             style={{
-                                    //                 backgroundImage: `url(${item?.image})`
-                                    //             }}
-                                    //         >
-                                    //             <Link href={`/blog/${item?._id}`}>
-                                    //                 <a
-                                    //                     className="img-link"
-                                    //                 ></a>
-                                    //             </Link>
-                                    //             <span className="top-right-icon bg-success">
-                                    //                 <i className="elegant-icon icon_camera_alt"></i>
-                                    //             </span>
-                                    //             <ul className="social-share">
-                                    //                 <li>
-                                    //                     <Link href="#">
-                                    //                         <a>
-                                    //                             <i className="elegant-icon social_share"></i>
-                                    //                         </a>
-                                    //                     </Link>
-                                    //                 </li>
-                                    //                 <li>
-                                    //                     <Link href="#">
-                                    //                         <a
-                                    //                             className="fb"
-                                    //                             title="Share on Facebook"
-                                    //                             target="_blank"
-                                    //                         >
-                                    //                             <i className="elegant-icon social_facebook"></i>
-                                    //                         </a>
-                                    //                     </Link>
-                                    //                 </li>
-                                    //                 <li>
-                                    //                     <Link href="#">
-                                    //                         <a
-                                    //                             className="tw"
-                                    //                             target="_blank"
-                                    //                             title="Tweet now"
-                                    //                         >
-                                    //                             <i className="elegant-icon social_twitter"></i>
-                                    //                         </a>
-                                    //                     </Link>
-                                    //                 </li>
-                                    //                 <li>
-                                    //                     <Link href="#">
-                                    //                         <a
-                                    //                             className="pt"
-                                    //                             target="_blank"
-                                    //                             title="Pin it"
-                                    //                         >
-                                    //                             <i className="elegant-icon social_pinterest"></i>
-                                    //                         </a>
-                                    //                     </Link>
-                                    //                 </li>
-                                    //             </ul>
-                                    //         </div>
-                                    //         <div className="post-content p-30">
-                                    //             <div className="entry-meta meta-0 font-small mb-10">
-                                    //                 <Link href={`/category/${item?.category}`}>
-                                    //                     <a>
-                                    //                         <span className="post-cat text-info">
-                                    //                             {item?.category}
-                                    //                         </span>
-                                    //                     </a>
-                                    //                 </Link>
-                                    //             </div>
-                                    //             <div className="d-flex post-card-content">
-                                    //                 <h5 className="post-title mb-20 font-weight-900">
-                                    //                     <Link href={`/blog/${item?._id}`}>
-                                    //                         <a>
-                                    //                             {item?.title}
-                                    //                         </a>
-                                    //                     </Link>
-                                    //                 </h5>
-                                    //                 <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
-                                    //                     <span className="post-on">
-                                    //                         {moment(item?.createdAt).format("MMM DD, YYYY")}
-                                    //                     </span>
-                                    //                     <span className="time-reading has-dot">
-                                    //                         {item?.readTime} mins read
-                                    //                     </span>
-                                    //                     <span className="post-by has-dot">
-                                    //                         {item?.views} views
-                                    //                     </span>
-                                    //                 </div>
-                                    //             </div>
-                                    //         </div>
-                                    //     </div>
-                                    // </article>
                                     <BlogCard key={i} item={item} />
                                 ))}
 
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* breack */}
                     <div className="bg-grey pt-50 pb-50">
                         <div className="container">
@@ -210,114 +103,13 @@ function Home({ posts, tags }) {
                                     <div className="post-module-2">
                                         <div className="widget-header-1 position-relative mb-30  wow fadeInUp animated">
                                             <h5 className="mt-5 mb-30">
-                                                Travel tips
+                                                Latest posts
                                             </h5>
                                         </div>
                                         <div className="loop-list loop-list-style-1">
                                             <div className="row">
-                                                {post.slice(4, 8).map((item, i) => (
-                                                    <article
-                                                        key={i}
-                                                        className="col-md-6 mb-30 wow fadeInUp animated"
-                                                        data-wow-delay="0.2s"
-                                                    >
-                                                        <div className="post-card-1 border-radius-10 hover-up">
-                                                            <div
-                                                                className="post-thumb thumb-overlay img-hover-slide position-relative"
-                                                                style={{
-                                                                    backgroundImage: `url(assets/imgs/news/${item?.img})`
-                                                                }}
-                                                            >
-                                                                <Link href={`/blog/${item?.id}`}>
-                                                                    <a
-                                                                        className="img-link"
-                                                                    ></a>
-                                                                </Link>
-                                                                <span className="top-right-icon bg-success">
-                                                                    <i className="elegant-icon icon_camera_alt"></i>
-                                                                </span>
-                                                                <ul className="social-share">
-                                                                    <li>
-                                                                        <Link href="#">
-                                                                            <a>
-                                                                                <i className="elegant-icon social_share"></i>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link href="#">
-                                                                            <a
-                                                                                className="fb"
-                                                                                title="Share on Facebook"
-                                                                                target="_blank"
-                                                                            >
-                                                                                <i className="elegant-icon social_facebook"></i>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link href="#">
-                                                                            <a
-                                                                                className="tw"
-                                                                                target="_blank"
-                                                                                title="Tweet now"
-                                                                            >
-                                                                                <i className="elegant-icon social_twitter"></i>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </li>
-                                                                    <li>
-                                                                        <Link href="#">
-                                                                            <a
-                                                                                className="pt"
-                                                                                target="_blank"
-                                                                                title="Pin it"
-                                                                            >
-                                                                                <i className="elegant-icon social_pinterest"></i>
-                                                                            </a>
-                                                                        </Link>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div className="post-content p-30">
-                                                                <div className="entry-meta meta-0 font-small mb-10">
-                                                                    <Link href={`/category/${item?.category}`}>
-                                                                        <a>
-                                                                            <span className="post-cat text-info">
-                                                                                {item?.category}
-                                                                            </span>
-                                                                        </a>
-                                                                    </Link>
-                                                                </div>
-                                                                <div className="d-flex post-card-content">
-                                                                    <h5 className="post-title mb-20 font-weight-900">
-                                                                        <Link href={`/blog/${item?.id}`}>
-                                                                            <a>
-                                                                                {item?.title}
-                                                                            </a>
-                                                                        </Link>
-                                                                    </h5>
-
-                                                                    <div className="post-excerpt mb-25 font-small text-muted">
-                                                                        <p>
-                                                                            {item?.desc}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
-                                                                        <span className="post-on">
-                                                                            {item?.date}
-                                                                        </span>
-                                                                        <span className="time-reading has-dot">
-                                                                            {item?.readTime} mins read
-                                                                        </span>
-                                                                        <span className="post-by has-dot">
-                                                                            {item?.views} views
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </article>
+                                                {posts.slice(0, 5).map((item, i) => (
+                                                    <BlogCard key={i} item={item} home/>
                                                 ))}
                                             </div>
                                         </div>
@@ -429,7 +221,7 @@ function Home({ posts, tags }) {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="pagination-area mb-30 wow fadeInUp animated">
+                                    {/* <div className="pagination-area mb-30 wow fadeInUp animated">
                                         <nav aria-label="Page navigation example">
                                             <ul className="pagination justify-content-start">
                                                 <li className="page-item">
@@ -494,7 +286,7 @@ function Home({ posts, tags }) {
                                                 </li>
                                             </ul>
                                         </nav>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="col-lg-4">
                                     <div className="widget-area">
@@ -508,7 +300,7 @@ function Home({ posts, tags }) {
                                                         alt=""
                                                     />
                                                     <h5 className="mb-20">
-                                                        Hello, I'm {item?.title}
+                                                        Hello, I'm Hazrat Ali
                                                     </h5>
                                                     <p className="font-medium text-muted">
                                                         {item?.desc}

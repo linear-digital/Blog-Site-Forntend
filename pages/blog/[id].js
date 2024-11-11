@@ -6,6 +6,7 @@ import data from "../../data/post.json";
 import comments from "../../data/comments.json";
 import api from "../../components/axios.instance";
 import moment from "moment";
+import { Avatar } from "antd";
 
 
 export async function getServerSideProps(context) {
@@ -29,7 +30,7 @@ const SingleVendor = ({ blog }) => {
                         <main className="bg-grey pb-30">
                             <div className="container single-content">
 
-                                <div className="entry-header entry-header-style-1 mb-50 pt-50">
+                                {/* <div className="entry-header entry-header-style-1 mb-50 pt-50">
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="entry-meta align-items-center meta-2 font-small color-muted">
@@ -95,12 +96,13 @@ const SingleVendor = ({ blog }) => {
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* <!--end single header--> */}
 
                                 {/* <!--figure--> */}
                                 <div
+                                    className="mb-50 pt-50"
                                 dangerouslySetInnerHTML={{ __html: blog?.content }}
                                 >
 
@@ -180,8 +182,9 @@ const SingleVendor = ({ blog }) => {
                                         <div className="author-image mb-30">
                                             <Link href={`/author/${blog?.user?._id}`}>
                                                 <a>
-                                                    <img
-                                                        src="/assets/imgs/authors/author-3.jpg"
+                                                    <Avatar
+                                                        size={80}
+                                                        src={blog?.user?.avatar}
                                                         alt=""
                                                         className="avatar"
                                                     />
