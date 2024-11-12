@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Editor } from "primereact/editor";
 import Layout from "../../components/layout/layout";
 import { Button, Input } from "antd";
@@ -13,6 +13,9 @@ import dynamic from 'next/dynamic';
 import PrivateLayout from "../../components/layout/PrivateLayout";
 import { Select } from "antd";
 import { Form } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { Space } from "antd";
+import { Divider } from "antd";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 function BasicDemo() {
     const [text, setText] = useState('');
@@ -57,7 +60,8 @@ function BasicDemo() {
                 user: currentuser._id,
                 tags: tags,
                 category: data.category,
-                desc: data.desc
+                desc: data.desc,
+                status: currentuser?.role === 'admin' ? 'published' : 'pending'
             })
             setLoading(false)
             toast.success(res?.data?.message || 'Blog created successfully')
@@ -78,6 +82,37 @@ function BasicDemo() {
         }
         getCategories()
     }, [])
+    const [options, setOptions] = useState([]);
+    const { data: allTags } = useQuery({
+        queryKey: ["tags"],
+        queryFn: async () => {
+            const tags = await api.get('/blog/tags/all')
+            return tags.data
+        }
+    })
+    const [name, setName] = useState('');
+    const inputRef = useRef(null);
+    const onNameChange = (event) => {
+        setName(event.target.value);
+    };
+    const addItem = (e) => {
+        e.preventDefault();
+        setOptions([...options, { value: name, label: name }]);
+        setName('');
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 0);
+    };
+    useEffect(() => {
+        if (allTags) {
+            setOptions(allTags.map((tag) => {
+                return {
+                    value: tag._id,
+                    label: tag._id
+                }
+            }))
+        }
+    }, [allTags])
     // const onFinish = async (values) => {
     //     console.log('Success:', values);
     // }
@@ -124,7 +159,7 @@ function BasicDemo() {
                 <Form.Item
                     label="Tags"
                 >
-                    <Input
+                    {/* <Input
                         placeholder="Tags"
                         size="large"
                         style={{
@@ -134,6 +169,40 @@ function BasicDemo() {
                         onChange={(e) => {
                             setTags(e.target.value.split(','))
                         }}
+                    /> */}
+                    <Select
+                        mode="multiple"
+                        size="large"
+                        onChange={setTags}
+
+                        placeholder="Select tags"
+                        dropdownRender={(menu) => (
+                            <>
+                                {menu}
+                                <Divider
+                                    style={{
+                                        margin: '8px 0',
+                                    }}
+                                />
+                                <Space
+                                    style={{
+                                        padding: '0 8px 4px',
+                                    }}
+                                >
+                                    <Input
+                                        placeholder="Please enter Tag"
+                                        ref={inputRef}
+                                        value={name}
+                                        onChange={onNameChange}
+                                        onKeyDown={(e) => e.stopPropagation()}
+                                    />
+                                    <Button type="text" onClick={addItem}>
+                                        Add item
+                                    </Button>
+                                </Space>
+                            </>
+                        )}
+                        options={options}
                     />
                 </Form.Item>
                 <Form.Item

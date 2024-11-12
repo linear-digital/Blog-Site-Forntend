@@ -101,15 +101,35 @@ function Home({ posts, tags }) {
                             <div className="row">
                                 <div className="col-lg-8">
                                     <div className="post-module-2">
-                                        <div className="widget-header-1 position-relative mb-30  wow fadeInUp animated">
-                                            <h5 className="mt-5 mb-30">
-                                                Latest posts
-                                            </h5>
+                                        <div className="row align-self-center">
+                                            <div className="col-md-4 align-self-center">
+                                                <h5 className="widget-title">
+                                                    Featured posts
+                                                </h5>
+                                            </div>
+                                            <div className="col-md-8 text-md-right font-small align-self-center">
+                                                <p className="d-inline-block mr-5 mb-0">
+                                                    <i className="elegant-icon  icon_tag_alt mr-5 text-muted"></i>
+                                                    Hot tags:
+                                                </p>
+                                                <ul className="list-inline d-inline-block tags">
+                                                    {
+                                                        tags?.map((item, i) => (
+                                                            <li key={i} className="list-inline-item">
+                                                                <Link href={`/blogs?tag=${item._id}`}>
+                                                                    <a >
+                                                                        #{item._id}</a>
+                                                                </Link>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div className="loop-list loop-list-style-1">
+                                        <div className="loop-list loop-list-style-1 mt-20">
                                             <div className="row">
                                                 {posts.slice(0, 5).map((item, i) => (
-                                                    <BlogCard key={i} item={item} home/>
+                                                    <BlogCard key={i} item={item} home />
                                                 ))}
                                             </div>
                                         </div>

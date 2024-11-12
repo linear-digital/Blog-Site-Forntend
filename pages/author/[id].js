@@ -132,7 +132,7 @@ function Author() {
                                     </div>
                                     <div className="loop-list loop-list-style-1">
                                         <div className="row">
-                                            {blogs.map((item, i) => (
+                                            {blogs?.map((item, i) => (
                                                 <BlogCard author={true} item={item} key={i} />
                                             ))}
                                         </div>

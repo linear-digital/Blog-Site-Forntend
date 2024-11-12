@@ -17,7 +17,7 @@ const settings = () => {
                 (category === 'blog' || !category) && <Blogs />
             }
             {
-                (category === 'users' || !category) && <Users />
+                (category === 'users') && <Users />
             }
         </PrivateLayout>
     );

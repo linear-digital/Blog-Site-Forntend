@@ -13,10 +13,9 @@ export async function getServerSideProps(context) {
     const { id } = context.query;
     // Fetch data from external API
     const res = await api.get(`/blog/${id}`);
-  
     // Pass data to the page via props
     return { props: { blog: res.data } };
-  }
+}
 
 
 const SingleVendor = ({ blog }) => {
@@ -103,25 +102,23 @@ const SingleVendor = ({ blog }) => {
                                 {/* <!--figure--> */}
                                 <div
                                     className="mb-50 pt-50"
-                                dangerouslySetInnerHTML={{ __html: blog?.content }}
+                                    dangerouslySetInnerHTML={{ __html: blog?.content }}
                                 >
 
                                 </div>
                                 <article className="entry-wraper mb-50">
-                                    
+
                                     <div className="entry-bottom mt-50 mb-30 wow fadeIn animated">
                                         <div className="tags">
                                             <span>Tags: </span>
-{/* 
-                                            <Link href="/category">
-                                                <a>{blog?.tags[0]}</a>
-                                            </Link>
-                                            <Link href="/category">
-                                                <a>{blog?.tags[1]}</a>
-                                            </Link>
-                                            <Link href="/category">
-                                                <a>{blog?.tags[2]}</a>
-                                            </Link> */}
+                                            {
+                                                blog?.tags?.map((tag, i) => (
+                                                    <Link 
+                                                    key={i} href={`/blogs?tag=${tag}`}>
+                                                        <a className="tag">{tag}</a>
+                                                    </Link>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                     <div className="single-social-share clearfix wow fadeIn animated">

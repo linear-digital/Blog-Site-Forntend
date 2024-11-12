@@ -2,7 +2,17 @@ import Link from "next/link";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Layout from "./layout";
 import data from "../../data/post.json";
+import { useQuery } from "@tanstack/react-query";
+import api from "../axios.instance";
 const Sidebar = ({ removeClass }) => {
+
+    const { data: tags } = useQuery({
+        queryKey: ["tags"],
+        queryFn: async () => {
+            const tags = await api.get('/blog/tags/all')
+            return tags.data
+        }
+    })
     return (
         <>
             <aside id="sidebar-wrapper" className="custom-scrollbar offcanvas-sidebar">
@@ -18,36 +28,16 @@ const Sidebar = ({ removeClass }) => {
                             </div>
                             <div className="widget_nav_menu">
                                 <ul>
-                                    <li className="cat-item cat-item-2">
-                                        <Link href="/category">
-                                            <a>Travel tips</a>
-                                        </Link>
-                                        <span className="post-count">30</span>
-                                    </li>
-                                    <li className="cat-item cat-item-3">
-                                        <Link href="/category-grid">
-                                            <a>Book review</a>
-                                        </Link>
-                                        <span className="post-count">25</span>
-                                    </li>
-                                    <li className="cat-item cat-item-4">
-                                        <Link href="/category-list">
-                                            <a>Hotel review</a>
-                                        </Link>
-                                        <span className="post-count">16</span>
-                                    </li>
-                                    <li className="cat-item cat-item-5">
-                                        <Link href="/category-masonry">
-                                            <a>Destinations</a>
-                                        </Link>
-                                        <span className="post-count">22</span>
-                                    </li>
-                                    <li className="cat-item cat-item-6">
-                                        <Link href="/category-big">
-                                            <a>Lifestyle</a>
-                                        </Link>
-                                        <span className="post-count">25</span>
-                                    </li>
+                                    {
+                                        tags?.slice(0, 8).map((tag, i) => (
+                                            <li key={i} className="cat-item cat-item-1">
+                                                <Link href={`/blogs?tag=${tag._id}`}>
+                                                    <a>{tag._id}</a>
+                                                </Link>
+                                                <span className="post-count">{tag.count}</span>
+                                            </li>
+                                        ))
+                                    }
                                 </ul>
                             </div>
                         </div>

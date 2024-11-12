@@ -10,7 +10,7 @@ import moment from 'moment/moment';
 import toast from 'react-hot-toast';
 
 const Blogs = () => {
-    const [status, setStatus] = React.useState('')
+    const [status, setStatus] = React.useState('all')
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['blogs-admin', status],
         queryFn: async () => {
@@ -82,6 +82,7 @@ const Blogs = () => {
                     {
                         title: <select value={status} onChange={(e) => setStatus(e.target.value)}>
                             <option value="">All</option>
+                            <option value="pending">Pending</option>
                             <option value="published">Published</option>
                             <option value="rejected">Rejected</option>
                             <option value="deleted">Deleted</option>
