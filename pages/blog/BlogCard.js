@@ -3,7 +3,7 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react';
 
-const BlogCard = ({ item, author, home }) => {
+const BlogCard = ({ item, author, home, isMyProfile }) => {
     if (!item) {
         return null
     }
@@ -13,7 +13,7 @@ const BlogCard = ({ item, author, home }) => {
             data-wow-delay="0.2s"
         >
             <div className="post-card-1 border-radius-10 hover-up position-relative">
-                {author && (
+                {isMyProfile && (
                     <Button
                         type='primary'
                         size='small'
@@ -81,7 +81,7 @@ const BlogCard = ({ item, author, home }) => {
                             </Link>
                         </h5>
                         {
-                            author && 
+                            isMyProfile && 
                             <Link href={`/blog/edit/${item._id}`}
                             className='mb-2'
                             >

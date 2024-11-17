@@ -17,19 +17,29 @@ function Author() {
 
     let Router = useRouter()
     const { id } = Router.query;
+    const [user, loading] = useAuthState(getAuth(app))
     const [singleData, setSingleData] = useState(null);
+    const [isMyProfile, setIsMyProfile] = useState(false);
 
     const { data: blogs, isLoading } = useQuery({
-        queryKey: ['blogs', id],
+        queryKey: ['blogs', id, isMyProfile],
         queryFn: async () => {
             try {
-                const res = await api.get(`/blog?user=${id}`);
-                const data = await res.data;
-                return data;
+                if (isMyProfile) {
+                    const res = await api.get(`/blog?user=${id}`);
+                    const data = await res.data;
+                    return data;
+                }
+                else {
+                    const res = await api.get(`/blog?user=${id}&public=true`);
+                    const data = await res.data;
+                    return data;
+                }
             } catch (error) {
                 console.error(error)
             }
-        }
+        },
+        enabled: !!id
     })
 
 
@@ -46,8 +56,16 @@ function Author() {
             }
         )()
     }, [id]);
-    if (isLoading ) {
-        return <Spin size="large" fullscreen={true}/>
+    useEffect(() => {
+        if (!user) {
+            setIsMyProfile(false)
+        }
+        else if (user?.email === singleData?.email) {
+            setIsMyProfile(true)
+        }
+    }, [singleData, user])
+    if (isLoading) {
+        return <Spin size="large" fullscreen={true} />
     }
     return (
         <>
@@ -133,7 +151,7 @@ function Author() {
                                     <div className="loop-list loop-list-style-1">
                                         <div className="row">
                                             {blogs?.map((item, i) => (
-                                                <BlogCard author={true} item={item} key={i} />
+                                                <BlogCard author={true} item={item} key={i} isMyProfile={isMyProfile} />
                                             ))}
                                         </div>
                                     </div>

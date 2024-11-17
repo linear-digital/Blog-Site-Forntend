@@ -60,11 +60,11 @@ const Comment = ({ post }) => {
                                             </p>
                                         </div>
                                         <div className="reply-btn ml-3">
-                                            <Link href="/#">
+                                            <div className='cursor-pointer'>
                                                 <a className="btn-reply">
                                                     Reply
                                                 </a>
-                                            </Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

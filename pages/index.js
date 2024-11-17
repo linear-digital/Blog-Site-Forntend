@@ -11,13 +11,14 @@ import SubscribeForm from "../components/SubscribeForm";
 export async function getServerSideProps() {
     // Fetch data from external API
     const res = await api.get('/blog?random=true')
+    const letest = await api.get('/blog?limit=5')
     const tags = await api.get('/blog/tags/all')
     // Pass data to the page via props
-    return { props: { posts: res.data || [], tags: tags.data?.slice(0, 5) || [] } }
+    return { props: { posts: res.data || [], tags: tags.data?.slice(0, 5) || [], letest: letest.data || [] } }
 }
 
 
-function Home({ posts, tags }) {
+function Home({ posts, tags, letest }) {
     return (
         <>
             <Layout>
@@ -141,7 +142,7 @@ function Home({ posts, tags }) {
                                             </h5>
                                         </div>
                                         <div className="loop-list loop-list-style-1">
-                                            {post.slice(4, 8).map((item, i) => (
+                                            {letest?.map((item, i) => (
                                                 <article
                                                     key={i}
                                                     className="hover-up-2 transition-normal wow fadeInUp animated">
@@ -150,9 +151,9 @@ function Home({ posts, tags }) {
                                                             <div className="post-thumb position-relative border-radius-5">
                                                                 <div
                                                                     className="img-hover-slide border-radius-5 position-relative"
-                                                                    style={{ backgroundImage: `url(assets/imgs/news/${item?.img})` }}
+                                                                    style={{ backgroundImage: `url(${item?.image})` }}
                                                                 >
-                                                                    <Link href={`/blog/${item?.id}`}>
+                                                                    <Link href={`/blog/${item?._id}`}>
                                                                         <a
                                                                             className="img-link"
                                                                         ></a>
@@ -214,7 +215,7 @@ function Home({ posts, tags }) {
                                                                     </Link>
                                                                 </div>
                                                                 <h5 className="post-title font-weight-900 mb-20">
-                                                                    <Link href={`/blog/${item?.id}`}>
+                                                                    <Link href={`/blog/${item?._id}`}>
                                                                         <a>
                                                                             {item?.title}
                                                                         </a>
@@ -225,10 +226,7 @@ function Home({ posts, tags }) {
                                                                 </h5>
                                                                 <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                                     <span className="post-on">
-                                                                        {item?.date}
-                                                                    </span>
-                                                                    <span className="time-reading has-dot">
-                                                                        {item?.readTime} mins read
+                                                                        {moment(item?.createdAt).format("MMM DD, YYYY")}
                                                                     </span>
                                                                     <span className="post-by has-dot">
                                                                         {item?.views} views

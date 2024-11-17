@@ -214,7 +214,7 @@ const SingleVendor = ({ blog }) => {
                                             </div>
                                             <Link href={`/author/${blog?.user?._id}`}>
                                                 <a className="author-bio-link mb-md-0 mb-3">
-                                                    View all posts ({data?.totalPost})
+                                                    View all posts
                                                 </a>
                                             </Link>
                                             <div className="author-social">
