@@ -5,11 +5,11 @@ import Link from 'next/link';
 import moment from 'moment';
 import { Spin } from 'antd';
 
-const MostPopularPosts = () => {
+const MostPopularPosts = ({ user }) => {
     const { data: post, isLoading } = useQuery({
         queryKey: ['popular-post'],
         queryFn: async () => {
-            const res = await api.get('/blog?sort=true&limit=5')
+            const res = await api.get(`/blog?sort=true&limit=5`)
             return res.data
         }
     })

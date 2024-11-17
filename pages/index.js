@@ -8,6 +8,7 @@ import moment from "moment";
 import BlogCard from "./blog/BlogCard";
 import SubscribeForm from "../components/SubscribeForm";
 import MostPopularPosts from "../components/MostPopularPosts";
+import LetestComments from "../components/LetestComments";
 
 export async function getServerSideProps() {
     // Fetch data from external API
@@ -365,134 +366,7 @@ function Home({ posts, tags, letest }) {
                                         </div>
                                         {/* Most popular */}
                                        <MostPopularPosts />
-                                        <div className="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated">
-                                            <div className="widget-header-1 position-relative mb-30">
-                                                <h5 className="mt-5 mb-30">
-                                                    Last comments
-                                                </h5>
-                                            </div>
-                                            <div className="post-block-list post-module-2">
-                                                <ul className="list-post">
-                                                    <li className="mb-30 wow fadeInUp animated">
-                                                        <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                            <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                                <Link href="/single">
-                                                                    <a
-                                                                        className="color-white"
-
-                                                                    >
-                                                                        <img
-                                                                            src="/assets/imgs/authors/author-2.jpg"
-                                                                            alt=""
-                                                                        />
-                                                                    </a>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="post-content media-body">
-                                                                <p className="mb-10">
-                                                                    <Link href="/author">
-                                                                        <a>
-                                                                            <strong>
-                                                                                David
-                                                                            </strong>
-                                                                        </a>
-                                                                    </Link>
-                                                                    <span className="ml-15 font-small text-muted has-dot">
-                                                                        16 Jan
-                                                                        2020
-                                                                    </span>
-                                                                </p>
-                                                                <p className="text-muted font-small">
-                                                                    A writer is
-                                                                    someone for
-                                                                    whom writing
-                                                                    is more
-                                                                    difficult
-                                                                    than...
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li className="mb-30 wow fadeInUp animated">
-                                                        <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                            <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                                <Link href="/single">
-                                                                    <a
-                                                                        className="color-white"
-
-                                                                    >
-                                                                        <img
-                                                                            src="/assets/imgs/authors/author-3.jpg"
-                                                                            alt=""
-                                                                        />
-                                                                    </a>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="post-content media-body">
-                                                                <p className="mb-10">
-                                                                    <Link href="/author">
-                                                                        <a>
-                                                                            <strong>
-                                                                                Kokawa
-                                                                            </strong>
-                                                                        </a>
-                                                                    </Link>
-                                                                    <span className="ml-15 font-small text-muted has-dot">
-                                                                        12 Feb
-                                                                        2020
-                                                                    </span>
-                                                                </p>
-                                                                <p className="text-muted font-small">
-                                                                    Striking
-                                                                    pewter
-                                                                    studded
-                                                                    epaulettes
-                                                                    silver zips
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li className="wow fadeInUp animated">
-                                                        <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                            <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                                <Link href="/single">
-                                                                    <a
-                                                                        className="color-white"
-
-                                                                    >
-                                                                        <img
-                                                                            src="/assets/imgs/news/thumb-1.jpg"
-                                                                            alt=""
-                                                                        />
-                                                                    </a>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="post-content media-body">
-                                                                <p className="mb-10">
-                                                                    <Link href="/author">
-                                                                        <a>
-                                                                            <strong>
-                                                                                Tsukasi
-                                                                            </strong>
-                                                                        </a>
-                                                                    </Link>
-                                                                    <span className="ml-15 font-small text-muted has-dot">
-                                                                        18 May
-                                                                        2020
-                                                                    </span>
-                                                                </p>
-                                                                <p className="text-muted font-small">
-                                                                    Workwear bow
-                                                                    detailing a
-                                                                    slingback
-                                                                    buckle strap
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <LetestComments />
                                         {/* <div className="sidebar-widget widget_instagram wow fadeInUp animated">
                                             <div className="widget-header-1 position-relative mb-30">
                                                 <h5 className="mt-5 mb-30">

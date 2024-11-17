@@ -13,6 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import BlogCard from "../blog/BlogCard";
 import { Spin } from "antd";
+import MostPopularPosts from "../../components/MostPopularPosts";
+import LetestComments from "../../components/LetestComments";
 function Author() {
 
     let Router = useRouter()
@@ -226,7 +228,7 @@ function Author() {
                             </div>
                             <div className="col-lg-4 primary-sidebar sticky-sidebar">
                                 <div className="widget-area">
-                                    <div className="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated">
+                                    {/* <div className="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated">
                                         <div className="widget-header-2 position-relative mb-30">
                                             <h5 className="mt-5 mb-30">
                                                 Most popular
@@ -272,216 +274,9 @@ function Author() {
                                                 ))}
                                             </ul>
                                         </div>
-                                    </div>
-                                    <div className="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated">
-                                        <div className="widget-header-2 position-relative mb-30">
-                                            <h5 className="mt-5 mb-30">
-                                                Last comments
-                                            </h5>
-                                        </div>
-                                        <div className="post-block-list post-module-2">
-                                            <ul className="list-post">
-                                                <li className="mb-30 wow fadeInUp animated">
-                                                    <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                        <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                            <Link href="/single"><a
-                                                                className="color-white"
-                                                            >
-                                                                <img
-                                                                    src="/assets/imgs/authors/author-2.jpg"
-                                                                    alt=""
-                                                                />
-                                                            </a></Link>
-                                                        </div>
-                                                        <div className="post-content media-body">
-                                                            <p className="mb-10">
-                                                                <Link href="/author"><a>
-                                                                    <strong>
-                                                                        David
-                                                                    </strong>
-                                                                </a></Link>
-                                                                <span className="ml-15 font-small text-muted has-dot">
-                                                                    16 Jan 2020
-                                                                </span>
-                                                            </p>
-                                                            <p className="text-muted font-small">
-                                                                A writer is
-                                                                someone for whom
-                                                                writing is more
-                                                                difficult
-                                                                than...
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="mb-30 wow fadeInUp animated">
-                                                    <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                        <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                            <Link href="/single"><a
-                                                                className="color-white"
-                                                            >
-                                                                <img
-                                                                    src="/assets/imgs/authors/author-3.jpg"
-                                                                    alt=""
-                                                                />
-                                                            </a></Link>
-                                                        </div>
-                                                        <div className="post-content media-body">
-                                                            <p className="mb-10">
-                                                                <Link href="/author"><a>
-                                                                    <strong>
-                                                                        Kokawa
-                                                                    </strong>
-                                                                </a></Link>
-                                                                <span className="ml-15 font-small text-muted has-dot">
-                                                                    12 Feb 2020
-                                                                </span>
-                                                            </p>
-                                                            <p className="text-muted font-small">
-                                                                Striking pewter
-                                                                studded
-                                                                epaulettes
-                                                                silver zips
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li className="wow fadeInUp animated">
-                                                    <div className="d-flex bg-white has-border p-25 hover-up transition-normal border-radius-5">
-                                                        <div className="post-thumb post-thumb-64 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                            <Link href="/single"><a
-                                                                className="color-white"
-                                                            >
-                                                                <img
-                                                                    src="/assets/imgs/news/thumb-1.jpg"
-                                                                    alt=""
-                                                                />
-                                                            </a></Link>
-                                                        </div>
-                                                        <div className="post-content media-body">
-                                                            <p className="mb-10">
-                                                                <Link href="/author"><a>
-                                                                    <strong>
-                                                                        Tsukasi
-                                                                    </strong>
-                                                                </a></Link>
-                                                                <span className="ml-15 font-small text-muted has-dot">
-                                                                    18 May 2020
-                                                                </span>
-                                                            </p>
-                                                            <p className="text-muted font-small">
-                                                                Workwear bow
-                                                                detailing a
-                                                                slingback buckle
-                                                                strap
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="sidebar-widget widget_instagram wow fadeInUp animated">
-                                        <div className="widget-header-2 position-relative mb-30">
-                                            <h5 className="mt-5 mb-30">
-                                                Instagram
-                                            </h5>
-                                        </div>
-                                        <div className="instagram-gellay">
-                                            <ul className="insta-feed">
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-3.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-1.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-4.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-2.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-5.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-3.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-3.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-4.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-4.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-5.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        href="assets/imgs/thumbnail-5.jpg"
-                                                        className="play-video"
-                                                        data-animate="zoomIn"
-                                                        data-duration="1.5s"
-                                                        data-delay="0.1s"
-                                                    >
-                                                        <img
-                                                            className="border-radius-5"
-                                                            src="/assets/imgs/news/thumb-6.jpg"
-                                                            alt=""
-                                                        />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    </div> */}
+                                    <MostPopularPosts user={id}/>
+                                    <LetestComments />
                                 </div>
                             </div>
                         </div>
