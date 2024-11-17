@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import api from "../axios.instance";
+import SubscribeForm from "../SubscribeForm";
 export async function getServerSideProps() {
     // Fetch data from external API
     const tags = await api.get('/blog/tags/all')
@@ -165,35 +166,7 @@ const Footer = ({ removeClass, tags }) => {
                                         Subscribe to our newsletter and get our
                                         newest updates right on your inbox.
                                     </p>
-                                    <form className="input-group form-subcriber mt-30 d-flex">
-                                        <input
-                                            type="email"
-                                            className="form-control bg-white font-small"
-                                            placeholder="Enter your email"
-                                        />
-                                        <button
-                                            className="btn bg-primary text-white"
-                                            type="submit"
-                                        >
-                                            Subscribe
-                                        </button>
-                                        <label className="mt-20">
-                                            {" "}
-                                            <input
-                                                className="mr-5"
-                                                name="name"
-                                                type="checkbox"
-                                                value="1"
-                                                required=""
-                                            />{" "}
-                                            I agree to the{" "}
-                                            <Link href="/#">
-                                                <a href="/#" target="_blank">
-                                                    terms &amp; conditions
-                                                </a>
-                                            </Link>{" "}
-                                        </label>
-                                    </form>
+                                    <SubscribeForm />
                                 </div>
                             </div>
                         </div>

@@ -10,7 +10,7 @@ import SubscribeForm from "../components/SubscribeForm";
 
 export async function getServerSideProps() {
     // Fetch data from external API
-    const res = await api.get('/blog')
+    const res = await api.get('/blog?random=true')
     const tags = await api.get('/blog/tags/all')
     // Pass data to the page via props
     return { props: { posts: res.data || [], tags: tags.data?.slice(0, 5) || [] } }
@@ -128,7 +128,7 @@ function Home({ posts, tags }) {
                                         </div>
                                         <div className="loop-list loop-list-style-1 mt-20">
                                             <div className="row">
-                                                {posts.slice(0, 5).map((item, i) => (
+                                                {posts.slice(0, 4).map((item, i) => (
                                                     <BlogCard key={i} item={item} home />
                                                 ))}
                                             </div>

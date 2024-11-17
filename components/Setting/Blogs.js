@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Image } from 'antd';
 import moment from 'moment/moment';
 import toast from 'react-hot-toast';
+import { Popconfirm } from 'antd';
 
 const Blogs = () => {
     const [status, setStatus] = React.useState('all')
@@ -22,6 +23,15 @@ const Blogs = () => {
         try {
             const res = await api.put(`/blog/${id}`, { status })
             toast.success('Status updated successfully')
+            refetch()
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
+        }
+    }
+    const deleteBlog = async (id) => {
+        try {
+            const res = await api.delete(`/blog/${id}`)
+            toast.success(res?.data?.message || 'Blog deleted successfully')
             refetch()
         } catch (error) {
             toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
@@ -100,7 +110,7 @@ const Blogs = () => {
                         dataIndex: 'action',
                         key: 'action',
                         render: (_, record) => (
-                            <Link href={`/blog/edit/${record._id}`}>
+                            <Link href={`/blog/edit/${record._id}`} >
                                 <Button type="primary" size='small'>
                                     Edit
                                 </Button>
@@ -129,15 +139,19 @@ const Blogs = () => {
                                     Reject
                                 </Button>
 
-                                <Button
-                                    onClick={() => updateStatus(record._id, 'deleted')}
-                                    size='small'
-                                    type="primary"
-                                    danger
-                                    className='ml-2'
+                                <Popconfirm title="Are you sure to delete this blog?"
+                                    onConfirm={() => deleteBlog(record._id)}
                                 >
-                                    Delete
-                                </Button>
+                                    <Button
+                                        size='small'
+                                        type="primary"
+                                        danger
+                                        className='ml-2'
+
+                                    >
+                                        Delete
+                                    </Button>
+                                </Popconfirm>
                             </div>
                         ),
                     }
