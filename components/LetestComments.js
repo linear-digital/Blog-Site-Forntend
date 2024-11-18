@@ -4,7 +4,6 @@ import React from 'react';
 import api from './axios.instance';
 import { Spin } from 'antd';
 import moment from 'moment';
-import { Avatar } from 'antd';
 import { Image } from 'antd';
 
 const LetestComments = () => {
