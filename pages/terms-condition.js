@@ -7,7 +7,9 @@ const TermsAndConditions = () => {
         <Layout>
             <div className="container mt-20">
                 <h1>Terms and Conditions</h1>
-                <p>Last updated: {moment().format('lll')}</p>
+                <p>Last updated: {
+                    moment().format('lll')
+                }</p>
 
                 <h2>Introduction</h2>
                 <p>
@@ -99,7 +101,7 @@ const TermsAndConditions = () => {
                 <h2>Contact Us</h2>
                 <p>
                     If you have any questions about these Terms and Conditions, please
-                    contact us at <a href="mailto:your-email@example.com">your-email@example.com</a>.
+                    contact us at <a href="mailto:hazrataliein@gmail.com">hazrataliein@gmail.com</a>.
                 </p>
             </div>
         </Layout>

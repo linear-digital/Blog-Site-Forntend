@@ -71,7 +71,10 @@ const PrivacyPolicy = () => {
                 <h2>Contact Us</h2>
                 <p>
                     If you have any questions about this Privacy Policy, please contact us
-                    at <a href="mailto:your-email@example.com">your-email@example.com</a>.
+                    at
+                    <a href="mailto:hazrataliein@gmail.com">
+                        hazrataliein@gmail.com
+                    </a>.
                 </p>
             </div>
         </Layout>
