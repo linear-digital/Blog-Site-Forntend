@@ -1,7 +1,19 @@
 import Link from "next/link";
 import Layout from "./../components/layout/layout";
 import Social from "../components/Social";
+import api from "../components/axios.instance";
 function Login() {
+    const submitHandler = async (e) => {
+        e.preventDefault()
+        const email = e.target.email.value
+        const password = e.target.password.value
+        try {
+            const res = await api.post('/users/login', { email, password })
+            console.log(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <>
             <Layout>
@@ -16,11 +28,11 @@ function Login() {
                                                 Login
                                             </h3>
                                         </div>
-                                        <form method="post">
+                                        <form onSubmit={submitHandler}>
                                             <div className="form-group">
                                                 <input
                                                     type="text"
-                                                    required=""
+                                                    required
                                                     className="form-control"
                                                     name="email"
                                                     placeholder="Your Email"
@@ -29,7 +41,7 @@ function Login() {
                                             <div className="form-group">
                                                 <input
                                                     className="form-control"
-                                                    required=""
+                                                    required
                                                     type="password"
                                                     name="password"
                                                     placeholder="Password"

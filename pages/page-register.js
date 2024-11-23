@@ -1,7 +1,20 @@
 import Link from "next/link";
 import Layout from "./../components/layout/layout";
 import Social from "../components/Social";
+import api from "../components/axios.instance";
 function Register() {
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        try {
+            const res = await api.post('/users', { name, email, password , avatar: name.slice(0, 1) })
+            console.log(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <>
             <Layout>
@@ -14,18 +27,16 @@ function Register() {
                                         <div className="heading_s1 text-center">
                                             <h3 className="mb-30 font-weight-900">Create an account</h3>
                                         </div>
-                                        <form method="post">
+                                        <form onSubmit={submitHandler}>
                                             <div className="form-group">
-                                                <input type="text" required="" className="form-control" name="username" placeholder="Username" />
+                                                <input type="text"
+                                                 required="" className="form-control" name="name" placeholder="Full Name" />
                                             </div>
                                             <div className="form-group">
                                                 <input type="text" required="" className="form-control" name="email" placeholder="Email" />
                                             </div>
                                             <div className="form-group">
                                                 <input className="form-control" required="" type="password" name="password" placeholder="Password" />
-                                            </div>
-                                            <div className="form-group">
-                                                <input className="form-control" required="" type="password" name="password" placeholder="Confirm password" />
                                             </div>
                                             <div className="login_footer form-group">
                                                 <div className="chek-form">

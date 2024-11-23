@@ -3,6 +3,7 @@ import { Button, Table } from 'antd';
 import React from 'react';
 import api from '../axios.instance';
 import toast from 'react-hot-toast';
+import { Avatar } from 'antd';
 
 const Users = () => {
     const { data, isLoading, refetch } = useQuery({
@@ -32,6 +33,16 @@ const Users = () => {
                         title: 'Name',
                         dataIndex: 'name',
                         key: 'name',
+                        render: (name, data) => {
+                            return <div>
+                                <Avatar src={data?.avatar} >
+                                    {name.slice(0, 1)}
+                                </Avatar>
+                                <span className='ml-2'>
+                                    {name}
+                                </span>
+                            </div>
+                        }
                     },
                     {
                         title: 'Email',
