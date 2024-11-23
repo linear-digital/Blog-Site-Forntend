@@ -2,14 +2,41 @@ import Link from "next/link";
 import Layout from "./../components/layout/layout";
 import Social from "../components/Social";
 import api from "../components/axios.instance";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import app from "../util/firebase.init";
 function Register() {
+    const auth = getAuth(app);
     const submitHandler = async (e) => {
         e.preventDefault();
-        const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         try {
-            const res = await api.post('/users', { name, email, password , avatar: name.slice(0, 1) })
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    const user = result.user;
+
+                    const newUser = {
+                        name: user.displayName,
+                        email: user.email,
+                        socialLogin: true,
+                        about: "",
+                        avatar: user.photoURL,
+                        social: null,
+                        token: user.accessToken
+                    }
+                    try {
+                        const res = await api.post('/users', newUser)
+                        toast.success('Login successfully')
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+
             console.log(res.data);
         } catch (error) {
             console.error(error);
@@ -30,7 +57,7 @@ function Register() {
                                         <form onSubmit={submitHandler}>
                                             <div className="form-group">
                                                 <input type="text"
-                                                 required="" className="form-control" name="name" placeholder="Full Name" />
+                                                    required="" className="form-control" name="name" placeholder="Full Name" />
                                             </div>
                                             <div className="form-group">
                                                 <input type="text" required="" className="form-control" name="email" placeholder="Email" />

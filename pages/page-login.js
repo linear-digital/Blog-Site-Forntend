@@ -2,14 +2,47 @@ import Link from "next/link";
 import Layout from "./../components/layout/layout";
 import Social from "../components/Social";
 import api from "../components/axios.instance";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from "../util/firebase.init";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 function Login() {
+    const auth = getAuth(app);
+    const navigate = useRouter();
+
     const submitHandler = async (e) => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         try {
-            const res = await api.post('/users/login', { email, password })
-            console.log(res.data);
+            signInWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => {
+                    const user = userCredential.user;
+
+                    const newUser = {
+                        name: user.displayName,
+                        email: user.email,
+                        socialLogin: true,
+                        about: "",
+                        avatar: user.photoURL,
+                        social: null,
+                        token: user.accessToken
+                    }
+                    try {
+                        const res = await api.post('/users', newUser)
+                        toast.success('Login successfully')
+                        console.log(res);
+                        navigate.push('/')
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    toast.error(errorMessage)
+                });
+
         } catch (error) {
             console.error(error);
         }
