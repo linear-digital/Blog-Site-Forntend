@@ -10,7 +10,8 @@ import moment from "moment";
 
 export async function getServerSideProps(context) {
     // Fetch data from external API
-    const res = await api.get(`/blog?limit=30`);
+    const query = context.query
+    const res = await api.get(`/blog?limit=30${query?.tag ? `&filter=${query?.tag}` : ''}`);
     const letest = await api.get('/blog?limit=5')
     // Pass data to the page via props
     return { props: { blogs: res.data, letest: letest.data } };
@@ -44,6 +45,11 @@ function Caregory({ blogs, letest }) {
                                         <div className="loop-list loop-list-style-1">
                                             <div className="row">
                                                 {
+                                                    blogs?.length < 1 ? 
+                                                    <div className="col-12 mb-30">
+                                                        <h3 className="text-center text-muted">No Result</h3>
+                                                    </div>
+                                                    :
                                                     blogs?.map(blog => <BlogCard key={blog._id} item={blog} home />)
                                                 }
                                             </div>

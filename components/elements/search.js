@@ -1,5 +1,21 @@
 import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import api from "../axios.instance";
+import toast from "react-hot-toast";
 const Search = () => {
+    const [categories, setCategories] = useState([])
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const res = await api.get('/blog/category')
+                setCategories(res?.data || [])
+
+            } catch (error) {
+                toast.error(error?.response?.data?.message || error?.message || 'Something went wrong')
+            }
+        }
+        getCategories()
+    }, [])
     return (
         <>
             <div className="main-search-form">
@@ -10,7 +26,12 @@ const Search = () => {
                                 <p className="text-center">
                                     <span className="search-text-bg">Search</span>
                                 </p>
-                                <form action="#" className="search-header">
+                                <form
+                                    onSubmit={(e) => {
+                                        e.preventDefault()
+                                        window.location.href = `/blogs?tag=${e.target[0].value}`
+                                    }}
+                                    className="search-header">
                                     <div className="input-group w-100">
                                         <input
                                             type="text"
@@ -36,30 +57,14 @@ const Search = () => {
                                     <strong>Suggested keywords:</strong>
                                 </h5>
                                 <ul className="list-inline d-inline-block">
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>World</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>American</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Opinion</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Tech</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Science</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Books</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Travel</a></Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link href="/category"><a>Business</a></Link>
-                                    </li>
+                                    {
+                                        categories?.map((item, index) => (
+                                            <li className="list-inline-item" key={index}>
+                                                <a href={`/category/${item?.name}`}><a>{item?.name}</a></a>
+                                            </li>
+                                        ))
+                                    }
+                                    
                                 </ul>
                             </div>
                         </div>
