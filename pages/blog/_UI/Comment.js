@@ -7,6 +7,7 @@ import { Spin } from 'antd';
 import api from '../../../components/axios.instance';
 import moment from 'moment';
 import { Avatar } from 'antd';
+import { useState } from 'react';
 const Comment = ({ post }) => {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['comments', post?._id],
@@ -16,8 +17,10 @@ const Comment = ({ post }) => {
             return res
         }
     })
+    const [reply, setReply] = useState(null)
+
     if (isLoading) {
-        return <Spin size='large'/>
+        return <Spin size='large' />
     }
 
     return (
@@ -54,14 +57,18 @@ const Comment = ({ post }) => {
                                                 </Link>
                                             </h5>
                                             <p className="date">
-                                               {
-                                                moment(item.createdAt).fromNow()
-                                               }
+                                                {
+                                                    moment(item.createdAt).fromNow()
+                                                }
                                             </p>
                                         </div>
                                         <div className="reply-btn ml-3">
-                                            <div className='cursor-pointer'>
-                                                <a className="btn-reply">
+                                            <div className='cursor-pointer'
+                                                style={{
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick={() => setReply(item)}>
+                                                <a className="btn-reply ">
                                                     Reply
                                                 </a>
                                             </div>
@@ -70,26 +77,29 @@ const Comment = ({ post }) => {
                                 </div>
                             </div>
                         </div>
-                        {/* {item.reply && item.reply.map((cmntr, i) => ((
+                        {item.reply && item.reply.map((cmntr, i) => ((
                             <>
                                 <div className="single-comment depth-2 justify-content-between d-flex mt-50">
                                     <div className="user justify-content-between d-flex">
                                         <div className="thumb">
-                                            <img
-                                                src={`/assets/imgs/authors/${cmntr.img}`}
+                                            <Avatar
+                                                size={50}
+                                                src={`${cmntr.user.avatar}`}
                                                 alt=""
                                             />
                                         </div>
                                         <div className="desc">
                                             <p className="comment">
-                                                {cmntr.desc}
+                                                {cmntr.comment}
                                             </p>
                                             <div className="d-flex justify-content-between">
                                                 <div className="d-flex align-items-center">
                                                     <h5>
                                                         <Link href="/#">
                                                             <a>
-                                                                {cmntr.name}
+                                                                {
+                                                                    cmntr.user.name
+                                                                }
                                                             </a>
                                                         </Link>
                                                     </h5>
@@ -111,14 +121,14 @@ const Comment = ({ post }) => {
                                 </div>
                             </>
 
-                        )))} */}
+                        )))}
 
                     </div>
 
                 ))}
             </div>
             {/* <!--comment form--> */}
-            <CommentForm post={post} refetch={refetch}/>
+            <CommentForm post={post} refetch={refetch} reply={reply} />
         </div>
     );
 };
