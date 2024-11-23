@@ -59,7 +59,11 @@ const CommentForm = ({ post, refetch, reply }) => {
         )
     }
     return (
-        <div className="comment-form wow fadeIn animated">
+        <div 
+        style={{
+            marginTop: reply ? '20px' : '0'
+        }}
+        className="comment-form wow fadeIn animated" id='comment-form'>
             <div className="widget-header-2 position-relative mb-30">
                 <h5 className="mt-5 mb-30">
                     {
@@ -81,7 +85,7 @@ const CommentForm = ({ post, refetch, reply }) => {
                                 name="comment"
                                 id="comment"
                                 cols="30"
-                                rows="9"
+                                rows="7"
                                 placeholder="Write Comment"
                             ></textarea>
                         </div>

@@ -14,12 +14,14 @@ export async function getServerSideProps(context) {
     const { id } = context.query;
     // Fetch data from external API
     const res = await api.get(`/blog/${id}`);
+
+    const related = await api.get(`/blog?category=${res?.data?.category}`)
     // Pass data to the page via props
-    return { props: { blog: res.data } };
+    return { props: { blog: res.data, related: related.data } };
 }
 
 
-const SingleVendor = ({ blog }) => {
+const SingleVendor = ({ blog , related}) => {
 
     return (
         <>
@@ -253,7 +255,7 @@ const SingleVendor = ({ blog }) => {
                                     </div>
                                     <Comment post={blog}/>
                                     {/* <!--related posts--> */}
-                                    <div className="related-posts">
+                                    <div className="related-posts mt-30">
                                         <div className="post-module-3">
                                             <div className="widget-header-2 position-relative mb-30">
                                                 <h5 className="mt-5 mb-30">
@@ -261,16 +263,16 @@ const SingleVendor = ({ blog }) => {
                                                 </h5>
                                             </div>
                                             <div className="loop-list loop-list-style-1">
-                                                {data.slice(1, 3).map((item, i) => (
+                                                {related?.map((item, i) => (
                                                     <article className="hover-up-2 transition-normal wow fadeInUp animated">
                                                         <div className="row mb-40 list-style-2">
                                                             <div className="col-md-4">
                                                                 <div className="post-thumb position-relative border-radius-5">
                                                                     <div
                                                                         className="img-hover-slide border-radius-5 position-relative"
-                                                                        style={{ backgroundImage: `url(/assets/imgs/news/${item.img})` }}
+                                                                        style={{ backgroundImage: `url(${item.image})` }}
                                                                     >
-                                                                        <Link href={`/blog/${item.id}`}>
+                                                                        <Link href={`/blog/${item._id}`}>
                                                                             <a
                                                                                 className="img-link"
                                                                             ></a>
@@ -323,7 +325,7 @@ const SingleVendor = ({ blog }) => {
                                                             <div className="col-md-8 align-self-center">
                                                                 <div className="post-content">
                                                                     <div className="entry-meta meta-0 font-small mb-10">
-                                                                        <Link href={`/blog/${item.id}`}>
+                                                                        <Link href={`/category/${item.category}`}>
                                                                             <a>
                                                                                 <span className="post-cat text-primary">
                                                                                     {item.category}
@@ -334,7 +336,7 @@ const SingleVendor = ({ blog }) => {
                                                                     <h5 className="post-title font-weight-900 mb-20">
                                                                         <Link href={`/blog/${item.id}`}>
                                                                             <a>
-                                                                                {item.title}
+                                                                                {item.title.slice(0, 50)}
                                                                             </a>
                                                                         </Link>
                                                                         <span className="post-format-icon">
@@ -343,10 +345,7 @@ const SingleVendor = ({ blog }) => {
                                                                     </h5>
                                                                     <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
                                                                         <span className="post-on">
-                                                                            {item.date}
-                                                                        </span>
-                                                                        <span className="time-reading has-dot">
-                                                                            {item.readTime} mins read
+                                                                            {moment(item.createdAt).fromNow()}
                                                                         </span>
                                                                         <span className="post-by has-dot">
                                                                             {item.views} views
