@@ -47,7 +47,7 @@ const Menu = ({ addClass, categories }) => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/category/travel">
+                                    <Link href="/category/Travel">
                                         <a>Travel</a>
                                     </Link>
                                 </li>
@@ -115,7 +115,7 @@ const Menu = ({ addClass, categories }) => {
                                     </ul>
                                 </li>
                                 <li>
-                                    <Link href="/category">
+                                    <Link href="/category/Review">
                                         <a>Review</a>
                                     </Link>
                                 </li>
