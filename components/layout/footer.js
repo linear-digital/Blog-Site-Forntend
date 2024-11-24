@@ -173,13 +173,13 @@ const Footer = ({ removeClass, tags }) => {
                     </div>
                     <div className="footer-copy-right pt-30 mt-20 wow fadeInUp animated">
                         <p className="float-md-left font-small text-muted">
-                            © 2020, Stories - Personal Blog HTML Template{" "}
+                            © {new Date().getFullYear()}, Stories - Hazrat Ali Personal Blog {" "}
                         </p>
                         <p className="float-md-right font-small text-muted">
                             Design by{" "}
                             <Link href="https://alithemes.com">
                                 <a target="_blank">
-                                    AliThemes
+                                    Hazrat Ali
                                 </a>
                             </Link>{" "}
                             | All rights reserved

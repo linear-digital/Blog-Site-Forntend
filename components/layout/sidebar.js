@@ -4,15 +4,22 @@ import Layout from "./layout";
 import data from "../../data/post.json";
 import { useQuery } from "@tanstack/react-query";
 import api from "../axios.instance";
+import moment from "moment";
 const Sidebar = ({ removeClass }) => {
 
-    const { data: tags } = useQuery({
+    const { data } = useQuery({
         queryKey: ["tags"],
         queryFn: async () => {
             const tags = await api.get('/blog/tags/all')
-            return tags.data
+            const popular = await api.get('/blog?sort=true&limit=5')
+            return {
+                tags: tags.data,
+                popular: popular.data
+            }
         }
     })
+    const tags = data?.tags || []
+    const popular = data?.popular || []
     return (
         <>
             <aside id="sidebar-wrapper" className="custom-scrollbar offcanvas-sidebar">
@@ -48,24 +55,26 @@ const Sidebar = ({ removeClass }) => {
                             </div>
                             <div className="post-block-list post-module-1 post-module-5">
                                 <ul className="list-post">
-                                    {data.slice(1, 4).map((item, i) => (
+                                    {popular.map((item, i) => (
                                         <li key={i} className="mb-30">
                                             <div className="d-flex hover-up-2 transition-normal">
                                                 <div className="post-thumb post-thumb-80 d-flex mr-15 border-radius-5 img-hover-scale overflow-hidden">
-                                                    <Link href={`/blog/${item.id}`}>
+                                                    <Link href={`/blog/${item._id}`}>
                                                         <a className="color-white">
-                                                            <img src={`assets/imgs/news/${item.img}`} alt="" />
+                                                            <img className="img-fluid" src={`${item.image}`} alt="" />
                                                         </a>
                                                     </Link>
                                                 </div>
                                                 <div className="post-content media-body">
                                                     <h6 className="post-title mb-15 text-limit-2-row font-medium">
-                                                        <Link href={`/blog/${item.id}`}>
-                                                            <a>The Life of a Travel Writer with David Farley</a>
+                                                        <Link href={`/blog/${item._id}`}>
+                                                            <a>{item.title}</a>
                                                         </Link>
                                                     </h6>
                                                     <div className="entry-meta meta-1 float-left font-x-small text-uppercase">
-                                                        <span className="post-on">{item.date}</span>
+                                                        <span className="post-on">{
+                                                            moment(item.createdAt).fromNow()
+                                                            }</span>
                                                         <span className="post-by has-dot">{item.views} views</span>
                                                     </div>
                                                 </div>
@@ -74,18 +83,6 @@ const Sidebar = ({ removeClass }) => {
                                     ))}
                                 </ul>
                             </div>
-                        </div>
-                        {/* <!--Ads--> */}
-                        <div className="sidebar-widget widget-ads">
-                            <div className="widget-header-2 position-relative mb-30">
-                                <h5 className="mt-5 mb-30">Advertise banner</h5>
-                            </div>
-
-                            <Link href="https://themeforest.net/user/alithemes/portfolio">
-                                <a target="_blank">
-                                    <img className="advertise-img border-radius-5" src="/assets/imgs/ads/ads-1.jpg" alt="" />
-                                </a>
-                            </Link>
                         </div>
                     </div>
                 </PerfectScrollbar>
