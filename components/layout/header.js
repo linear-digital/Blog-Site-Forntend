@@ -6,11 +6,22 @@ import toast from "react-hot-toast";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import app from "../../util/firebase.init";
+import { useRouter } from "next/router";
+import { Spin } from "antd";
 
 const Header = ({ addClass, openSearch }) => {
     const [categories, setCategories] = useState([])
     const [currentuser, setCurrentUser] = useState(null)
     const [user] = useAuthState(getAuth(app));
+
+    const path = useRouter()
+    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    }, [path])
     useEffect(() => {
         const getCategories = async () => {
             try {
@@ -37,6 +48,7 @@ const Header = ({ addClass, openSearch }) => {
     }, [user])
     return (
         <>
+            <Spin spinning={loading} fullscreen size="large" />
             <header className="main-header header-style-1 font-heading">
                 <div className="header-top">
                     <div className="container">

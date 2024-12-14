@@ -7,6 +7,7 @@ import Sidebar from "./sidebar";
 import BackToTop from "../elements/backToTop";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Layout = ({ children, title, description }) => {
     const addClass = () => {
@@ -20,7 +21,6 @@ const Layout = ({ children, title, description }) => {
     const openSearch = () => {
         document.body.classList.toggle("open-search-form");
     };
-
     return (
         <>
             <Head>

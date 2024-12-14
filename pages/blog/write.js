@@ -104,8 +104,8 @@ function BasicDemo() {
         }, 0);
     };
     useEffect(() => {
-        if (allTags) {
-            setOptions(allTags.map((tag) => {
+        if (allTags?.tags) {
+            setOptions(allTags?.tags?.map((tag) => {
                 return {
                     value: tag._id,
                     label: tag._id
